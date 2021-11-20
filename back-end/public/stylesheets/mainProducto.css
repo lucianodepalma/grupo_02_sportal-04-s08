@@ -38,24 +38,7 @@
   text-decoration: none;
   color: #950000;
 }
-.header-menu-list {
-  display: none;
-  position: fixed;
-  top: 93px;
-  right: 65px;
-}
-header ul {
-  display: flex;
-  list-style: none;
-  font-size: 14px;
-}
-header li {
-  padding-right: 5px;
-}
-header a {
-  text-decoration: none;
-  color: white;
-}
+
 .product-items {
   display: flex;
   flex-direction: column;

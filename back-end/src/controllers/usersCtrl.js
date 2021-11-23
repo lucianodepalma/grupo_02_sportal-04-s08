@@ -124,6 +124,7 @@ const controller = {
           });
     } else {
       const email = req.body.usuario;
+      req.session.avatar = (req.file.filename ? req.file.filename : req.session.avatar);
       db.User.update({
         password: bcrypt.hashSync(req.body.password, 10),
         first_name: req.body.nombre,
@@ -133,7 +134,7 @@ const controller = {
         address: req.body.direccion,
         zipcode: req.body.cp,
         city: req.body.localidad,
-        avatar: (req.file.filename ? req.file.filename : req.session.avatar ),
+        avatar: (req.file.filename ? req.file.filename : req.session.avatar),
         is_admin: false,
         active: true
       },

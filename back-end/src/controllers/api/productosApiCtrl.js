@@ -52,7 +52,7 @@ const controller = {
   ,
   // Devuelve un usuario
   oneProduct:
-    // Uso: /api/products/<id>
+    // Uso: /api/products/:id
     function (req, res) {
       // Seleccion de todas las tablas involucradas.
       let product = db.Product.findByPk(req.params.id);
@@ -141,8 +141,8 @@ const controller = {
       });
     }
   ,
-    // Devuelve un array con la cantidad de productos por categoria
-    totalByCategory:
+  // Devuelve un array con la cantidad de productos por categoria
+  totalByCategory:
     // Uso: /api/products/total
     function (req, res) {
       // Productos y categorias
@@ -182,7 +182,6 @@ const controller = {
         res.json(errMsg);
       });
     }
-
 }
 
 module.exports = controller;

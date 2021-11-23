@@ -96,23 +96,18 @@ const validations = {
         body ('localidad').notEmpty().withMessage('Debes ingresar tu localidad.'),
         body ('avatar').custom( (value, { req }) => {
             let file = req.file;
-            if(req.session.avatar) {
-                req.file = req.session.avatar;
-                return true;
+            if (file == undefined){
+                throw new Error('Tenes que subir una imagen de perfil');
             } else {
-                if (file == undefined){
-                    throw new Error('Tenes que subir una imagen de perfil');
-                } else {
-                    //let extentions = ['.jpeg', '.jpg', '.png', '.gif'];
-                    let extentions = config.misc.imageExt.split(",");
-                    let fileExtention = path.extname(file.originalname).toLowerCase();
-                    if (!extentions.includes(fileExtention)) {
-                        throw new Error(`Las extensiones permitidas son ${extentions.join(', ')}`);
-                    }
+                // Extentions = ['.jpeg', '.jpg', '.png', '.gif'];
+                let extentions = config.misc.imageExt.split(",");
+                let fileExtention = path.extname(file.originalname).toLowerCase();
+                if (!extentions.includes(fileExtention)) {
+                    throw new Error(`Las extensiones permitidas son ${extentions.join(', ')}`);
                 }
-                req.session.avatar = file;
-                return true;
             }
+            req.session.avatar = file;
+            return true;
         })
     ],
     edit: [
@@ -138,21 +133,16 @@ const validations = {
         body ('localidad').notEmpty().withMessage('Debes ingresar tu localidad.').bail(),
         body ('avatar').custom((value, { req }) => {
             let file = req.file;
-            if(req.session.avatar) {
-                req.file = req.session.avatar;
-                return true;
-            } else {
-                if (file != undefined){
-                    //let extentions = ['.jpeg', '.jpg', '.png', '.gif'];
-                    let extentions = config.misc.imageExt.split(",");
-                    let fileExtention = path.extname(file.originalname).toLowerCase();
-                    if (!extentions.includes(fileExtention)) {
-                        throw new Error(`Las extensiones permitidas son ${extentions.join(', ')}`);
-                    }
+            if (file != undefined){
+                // Extentions = ['.jpeg', '.jpg', '.png', '.gif'];
+                let extentions = config.misc.imageExt.split(",");
+                let fileExtention = path.extname(file.originalname).toLowerCase();
+                if (!extentions.includes(fileExtention)) {
+                    throw new Error(`Las extensiones permitidas son ${extentions.join(', ')}`);
                 }
-                req.session.avatar = file;
-                return true;
             }
+            req.session.avatar = file;
+            return true;
         })
     ],
 

@@ -37,6 +37,7 @@ const controller = {
         .then(function(usuarioEncontrado) {
           if (usuarioEncontrado) {
             req.session.usuarioLogueado = usuarioEncontrado;
+            res.cookie('userId', usuarioEncontrado.id, {maxAge: 1000 * 60 * 60 * 60 * 24});
             if (req.body.recordame) {
               res.cookie('recordame', usuarioEncontrado.id, {maxAge: 1000 * 60 * 60 * 60 * 24});
             }
@@ -103,6 +104,9 @@ const controller = {
   logout:
     function (req, res) {
       delete req.session.usuarioLogueado;
+      if (req.cookies.userId) {
+        res.cookie('userId', req.cookies.userId, {maxAge: 0});
+      }
       if (req.cookies.recordame) {
         res.cookie('recordame', req.cookies.recordame, {maxAge: 0});
       }

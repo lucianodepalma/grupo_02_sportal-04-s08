@@ -23,9 +23,9 @@ module.exports = (sequelize, dataTypes) => {
       type: dataTypes.DECIMAL(9,2),
       default: 0.00
     },
-    billed: {
+    status_id: {
       type: dataTypes.BIGINT(10).UNSIGNED,
-      default: 0
+      autoNull: false,
     },
     created_at: dataTypes.DATE,
     updated_at: dataTypes.DATE
@@ -49,9 +49,7 @@ module.exports = (sequelize, dataTypes) => {
       otherKey: "id",
       timestamps: true
     });
-  }
-  
-  ShoppingCart.associate = function (models) {
+
     ShoppingCart.belongsToMany(models.User, {
       as: "ShoppingCart_User",
       through: "users",
@@ -60,5 +58,6 @@ module.exports = (sequelize, dataTypes) => {
       timestamps: true
     });
   }
+
   return ShoppingCart;
 }

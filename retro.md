@@ -127,3 +127,20 @@ LESS OF
 
 STOP DOING
 - Planificar tareas sin haber primero verificado que son factibles de hacer o lo que determinan las buenas prácticas.
+
+** Retrospectiva del Sprint #7 **
+
+START DOING
+- Dado que este último sprint resultó más simple de lo esperado, se pudo dedicar más tiempo al siguiente.
+
+KEEP DOING
+- Buena onda del grupo y charlas divergentes.
+
+MORE OF
+- Reuniones de coordinación diarias.
+
+LESS OF
+- No hubo mayores contratiempos que valga la pena mencionar.
+
+STOP DOING
+- No hubo ningún problema en este sprint.

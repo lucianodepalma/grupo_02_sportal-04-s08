@@ -3,6 +3,6 @@ var router = express.Router();
 var controller = require("../controllers/carritoCtrl.js")
 
 /* GET users stand-by buys. */
-router.get("/",controller.retrive);
+router.get("/:userId",controller.retrive);
 
 module.exports = router;

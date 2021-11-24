@@ -7,8 +7,9 @@ const config = {
     pathImages: "/images/select200/",
     pathLogos: "/images/logos/",
     pathAvatar: "/images/avatars/",
+    pathIcons: "/images/icons/",
     defaultImage: "default.jpg",
-    urlSite: "localhost:3000"
+    urlSite: "localhost:3001"
   }
 }
 

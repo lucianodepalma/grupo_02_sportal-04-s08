@@ -49,7 +49,7 @@ Es diseñador gráfico con años de experiencia profesional. Actualmente dirige 
 - errores     -> error.ejs<br>
 - /partials   -> Carpeta con las vistas parciales para formar las vistas principales.<br>
 
-Para su ejecución local se debe clonar el proyecto desde https://github.com/vasili-hugo/grupo_02_sportal-02.git. Luego instale sus dependencias con npm install.<br>
+Para su ejecución local se debe clonar el proyecto desde https://github.com/vasili-hugo/grupo_04_sportal-s08.git. Luego instale sus dependencias con npm install.<br>
 Para este sprint 5 se efectuaron los ABM/CRUD de las BD JSON de usuarios y productos, las vistas, routers y controllers que los administran.<br>
 Para correr el proyecto abra una consola y ejecute [node | nodemon] bin\www.<br>
 Desde el browser (Google Chrome, Mozilla Firefox o Microsoft Edge) url http://localhost:3000.<br>
@@ -65,8 +65,15 @@ El archivo sportal_db.xml dispone el Diagrama Entidad Relación en formato XML. 
 Para acceder al listado de productos para su edición y/o creación se deberá acceder como administrador.<br>
 Para ello crear un usuario y posteriormente, acceder a la BD mediante cualquiera de los cliente mencionados, y cambiar el campo 'is_admin' con el valor '1' en la tabla Users.
 
-Para el sprint 7 se agregaron las validaciones del front-end. No se han utilizado paquetes adicionales para este sprint, ya que solo se ha utilizado JavaScript.<br>
+Para el sprint 7 se agregaron las validaciones del front-end.<br>
+No se han utilizado paquetes adicionales para este sprint, ya que solo se ha utilizado JavaScript.<br>
 Se han corregido algunos bugs y se implementaron tareas pendientes.
+
+Para este último sprint 8 se hizo incapié en terminar la vista de un producto para, finalmente, poder completar la lógica del carrito.<br>
+Para lograr finalizar el proyecto hubo que dividir las tareas para poder completar el dashboard en React y lo faltante del proyecto integrador.<br>
+Como para esta etapa del proyecto es necesario separa el front-end del back-end, se creó un repositorio diferente.<br>
+Como el front-end en React corre, por defecto, sobre el puerto 3000, se configuró el back-end para iniciar sobre el puerto 3001.<br>
+El nuevo repositorio se encuentra en https://github.com/vasili-hugo/grupo_02_sportal-04-s08.git.
 
 **REFERENCIAS CONSULTADAS PARA EL PROYECTO**
 

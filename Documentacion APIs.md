@@ -7,7 +7,7 @@ Todos devuelven una respuesta en formato **JSON**.
 ## **Usuarios**<br>
 Dispone de 2 endpoints:
 
-### 1)  Obtener todos los usuarios
+### Obtener todos los usuarios
 
     Uso: /api/users/?rpp=<number>&page=<number>
     donde: rpp es la cantidad de registros por página
@@ -19,7 +19,7 @@ Dispone de 2 endpoints:
           status: Código de error
          }
 
-### 2)  Obtener un usuario
+### Obtener un usuario
 
     Uso: /api/users/<id>
 
@@ -43,7 +43,7 @@ Dispone de 2 endpoints:
 ## **Productos**<br>
 Dispone de 3 endpoints:
 
-### 1)  Obtener todos los productos
+### Obtener todos los productos
 
     Uso: /api/products/?rpp=<number>&page=<number>
     donde: rpp es la cantidad de registros por página
@@ -55,7 +55,7 @@ Dispone de 3 endpoints:
           status: Código de error
          }
 
-### 2)  Obtener un producto
+### Obtener un producto
 
     Uso: /api/products/:id
 
@@ -87,7 +87,7 @@ Dispone de 3 endpoints:
           status: Código de error
          }
 
-### 3)  Obtener la cantidad de productos por categoría
+### Obtener la cantidad de productos por categoría
 
     Uso: /api/products/total
 
@@ -100,7 +100,7 @@ Dispone de 3 endpoints:
 ## **Carrito**<br>
 Dispone de 10 endpoints:
 
-### 1)  Obtener todos los registros de un usuario
+### Obtener todos los registros de un usuario
 
     Uso: /api/cart/all/:userId
 
@@ -110,7 +110,7 @@ Dispone de 10 endpoints:
           status:  Código de error
          }
 
-### 2)  Obtener un registro
+### Obtener un registro
 
     Uso: /api/cart/one/:id
 
@@ -119,36 +119,36 @@ Dispone de 10 endpoints:
           status: Código de error
          }
 
-### 3)  Agregar un registro al carrito
+### Agregar un registro al carrito
 
     Uso: /api/cart/add (Post)
     Debe informar el body (como parámetros del fetch/axios) con los campos a actualizar
 
-### 4)  Actualizar un registro del carrito
+### Actualizar un registro del carrito
 
     Uso: /api/cart/upd/:id (Post)
     Debe informar el body (como parámetros del fetch/axios) con los campos a actualizar
 
-### 5)  Eliminar un registro del carrito
+### Eliminar un registro del carrito
 
     Uso: /api/cart/del/:id (Post)
 
-### 6)  Cancelar un registro del carrito
+### Cancelar un registro del carrito
 
     Uso: /api/cart/can/:id (Post)
 
-### 7)  Vaciar el carrito
+### Vaciar el carrito
 
     Uso: /api/cart/empty/:userId (Post)
 
-### 8)  Facturar el carrito
+### Facturar el carrito
 
     Uso: /api/cart/pay/:userId (Post)
 
-### 9)  Sumar un producto
+### Sumar un producto
 
     Uso: /api/cart/moreOne/:id (Post)
 
-### 10) Restar un producto
+### Restar un producto
 
     Uso: /api/cart/lessOne/:id (Post)

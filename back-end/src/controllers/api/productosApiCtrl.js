@@ -11,6 +11,13 @@ const controller = {
   // Devuelve todos los productos
   allProducts:
     // Uso: /api/products/?rpp=<number>&page=<number>
+    // donde: rpp es la cantidad de registros por pagina
+    //        page es la pagina que se desea obtener
+    // Out: {
+    //        count: Cantidad de productos
+    //        products: Array de productos
+    //        status: Codigo de error
+    //      }
     function (req, res) {
       // Paginacion
       let rpp = (req.query.rpp ? req.query.rpp : 0);
@@ -53,6 +60,33 @@ const controller = {
   // Devuelve un usuario
   oneProduct:
     // Uso: /api/products/:id
+    // Out: {
+    //        id: ID de producto
+    //        code: Codigo
+    //        brand: Marca
+    //        heading: Rubro
+    //        model: Modelo
+    //        family: Familia de producto
+    //        desc: Descripcion
+    //        price: Precio
+    //        age: Edad
+    //        sex: Sexo
+    //        color: Color
+    //        image: URL de la imagen principal
+    //        imageLeft: URL de la imagen lateral izquierda
+    //        imageRight: URL de la imagen lateral derecha
+    //        imageUpper: URL de la imagen superior
+    //        imageLower: URL de la imagen inferior
+    //        discontinued: Discontinuado
+    //        // Colecciones
+    //        brandsCollection: Marcas
+    //        colorsCollection: Colores
+    //        sexCollection: Sexo
+    //        agesCollection: Edades
+    //        headingsCollection: Rubros
+    //        familiesCollection: Familias de producto
+    //        status: Codigo de error
+    //      }
     function (req, res) {
       // Seleccion de todas las tablas involucradas.
       let product = db.Product.findByPk(req.params.id);
@@ -132,9 +166,10 @@ const controller = {
           sexCollection: sex,
           agesCollection: ages,
           headingsCollection: headings,
-          familiesCollection: families
+          familiesCollection: families,
+          status:200
         }
-        res.json(record);
+        res.status(200).json(record);
       })
       .catch(function (errMsg) {
         res.json(errMsg);
@@ -144,6 +179,11 @@ const controller = {
   // Devuelve un array con la cantidad de productos por categoria
   totalByCategory:
     // Uso: /api/products/total
+    // Out: {
+    //        count: Cantidad de productos
+    //        countByCategory: Array de productos por categoria
+    //        status: Codigo de error
+    //      }
     function (req, res) {
       // Productos y categorias
       let products = db.Product.findAll();

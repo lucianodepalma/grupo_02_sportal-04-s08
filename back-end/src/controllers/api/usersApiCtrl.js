@@ -6,28 +6,18 @@ const db = require('../../database/models');
 // Config
 const config = require("../../controllers/config.js");
 
-/* JSON Layout
-usuario   : e-mail (X)
-password  : Contraseña (X)
-nombre    : Nombres (X)
-apellido  : Apellidos (X)
-dni       : DNI (N)
-celular   : Celular (N)
-direccion : Direccion (X)
-cp        : Codigo Postal (X)
-localidad : Localidad (X)
-avatar    : Foto de perfil (X)
-isAdmin   : true/false
-active    : true/false
-uuid      : uuid (formato especifico)
-*/
-
 // Controller
-
 const controller = {
   // Devuelve todos los usuarios
   allUsers:
     // Uso: /api/users/?rpp=<number>&page=<number>
+    // donde: rpp es la cantidad de registros por pagina
+    //        page es la pagina que se desea obtener
+    // Out: {
+    //        count: Cantidad de usuarios
+    //        products: Array de usuarios
+    //        status: Codigo de error
+    //      }
     function (req, res) {
       // Paginacion
       let rpp = (req.query.rpp ? req.query.rpp : 0);
@@ -65,7 +55,22 @@ const controller = {
   ,
   // Devuelve un usuario
   oneUser:
-      // Uso: /api/users/<id>
+    // Uso: /api/users/<id>
+    // donde: rpp es la cantidad de registros por pagina
+    //        page es la pagina que se desea obtener
+    // Out: {
+    //        id: ID de usuario
+    //        email: Direccion de correo
+    //        first_name: Nombres
+    //        last_name: Apellidos
+    //        dni: DNI
+    //        cell_phone: Telefono celular
+    //        address: Direccion
+    //        zipcode: Codigo Postal
+    //        city: Ciudad
+    //        avatar: URL del avatar
+    //        status: Codigo de error
+    //      }
     function (req, res) {
       db.User.findByPk(req.params.id)
       .then(function (result) {
@@ -79,9 +84,10 @@ const controller = {
           address: result.address,
           zipcode: result.zipcode,
           city: result.city,
-          avatar: config.misc.urlSite + config.misc.pathAvatar + result.avatar
+          avatar: config.misc.urlSite + config.misc.pathAvatar + result.avatar,
+          status: 200
         }
-        res.json(record);
+        res.status(200).json(record);
       })
       .catch(function (errMsg) {
         res.json(errMsg);

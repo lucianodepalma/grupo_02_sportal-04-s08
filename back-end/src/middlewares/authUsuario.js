@@ -3,7 +3,7 @@ const userFunctions = {
         if (req.session.usuarioLogueado == undefined) {
             next();
         } else {
-            res.redirect('home');
+            res.redirect('/home');
         }
     },
     //Verifica que el request sea del usuario logueado

@@ -1,0 +1,31 @@
+#big-panel-text{
+    width: 100%;
+    min-height: 100%;
+    overflow-y: scroll;
+    color: black;
+    font-size: 16px;
+    grid-column: 6/7;
+    grid-row:1/3;
+    font-weight: 500;
+    text-align: left;
+    padding:17px 0;
+    margin-left: -10px;
+}
+#big-panel-text>h1{
+    margin-top: 0;
+    color: white;
+    font-size: 18px;
+    background-color: #b4b4b4;
+    font-weight: 400;
+    text-transform:uppercase;
+    padding: 8px;
+}
+#big-panel-text>h1>hr{
+    
+    margin:5px 0 5px 0;  
+}
+#big-panel-text>h1>b{
+    color:#950000;
+    position:relative;
+    font-size: 14px;
+}

@@ -1,72 +1,72 @@
-** DOCUMENTACION APIs **
+## **Documentación APIs**
 
-Todos los endpoints se encuentran en la carpeta ** /src/controllers/api **.
-Salvo indicación, todos los endpoints son consumidos mediante un GET.
-Todos devuelven una respuesta en formato JSON.
+Todos los endpoints se encuentran en la carpeta **src/controllers/api**.<br>
+Salvo indicación, todos los endpoints son consumidos mediante un **GET**.<br>
+Todos devuelven una respuesta en formato **JSON**.
 
-** Usuarios **
+## **Usuarios**<br>
 Dispone de 2 endpoints:
 
-1)  Devuelve todos los usuarios
+### 1)  Obtener todos los usuarios
 
     Uso: /api/users/?rpp=<number>&page=<number>
-    donde: rpp es la cantidad de registros por pagina
-            page es la pagina que se desea obtener
+    donde: rpp es la cantidad de registros por página
+           page es la página que se desea obtener
 
     Out: {
           count: Cantidad de usuarios
           products: Array de usuarios
-          status: Codigo de error
+          status: Código de error
          }
 
-2)  Devuelve un usuario
+### 2)  Obtener un usuario
 
     Uso: /api/users/<id>
 
-    donde: rpp es la cantidad de registros por pagina
-          page es la pagina que se desea obtener
+    donde: rpp es la cantidad de registros por página
+           page es la página que se desea obtener
 
     Out: {
           id: ID de usuario
-          email: Direccion de correo
+          email: Dirección de correo
           first_name: Nombres
           last_name: Apellidos
           dni: DNI
-          cell_phone: Telefono celular
-          address: Direccion
-          zipcode: Codigo Postal
+          cell_phone: Teléfono celular
+          address: Dirección
+          zipcode: Código Postal
           city: Ciudad
           avatar: URL del avatar
-          status: Codigo de error
+          status: Código de error
          }
 
-** Productos **
+## **Productos**<br>
 Dispone de 3 endpoints:
 
-1)  Devuelve todos los productos
+### 1)  Obtener todos los productos
 
     Uso: /api/products/?rpp=<number>&page=<number>
-    donde: rpp es la cantidad de registros por pagina
-          page es la pagina que se desea obtener
+    donde: rpp es la cantidad de registros por página
+           page es la página que se desea obtener
 
     Out: {
           count: Cantidad de productos
           products: Array de productos
-          status: Codigo de error
+          status: Código de error
          }
 
-2)  Devuelve un usuario
+### 2)  Obtener un producto
 
     Uso: /api/products/:id
 
     Out: {
           id: ID de producto
-          code: Codigo
+          code: Código
           brand: Marca
           heading: Rubro
           model: Modelo
           family: Familia de producto
-          desc: Descripcion
+          desc: Descripción
           price: Precio
           age: Edad
           sex: Sexo
@@ -84,71 +84,71 @@ Dispone de 3 endpoints:
           agesCollection: Edades
           headingsCollection: Rubros
           familiesCollection: Familias de producto
-          status: Codigo de error
+          status: Código de error
          }
 
-3)  Devuelve un array con la cantidad de productos por categoria
+### 3)  Obtener la cantidad de productos por categoría
 
     Uso: /api/products/total
 
     Out: {
           count: Cantidad de productos
-          countByCategory: Array de productos por categoria
-          status: Codigo de error
+          countByCategory: Array de productos por categoría
+          status: Código de error
          }
 
-** Carrito **
+## **Carrito**<br>
 Dispone de 10 endpoints:
 
-1)  Obtiene todos los registros de un usuario
+### 1)  Obtener todos los registros de un usuario
 
     Uso: /api/cart/all/:userId
 
     Out: {
           count:   Cantidad de registros
           records: Array de registros
-          status:  Codigo de error
+          status:  Código de error
          }
 
-2)  Obtiene un registro
+### 2)  Obtener un registro
 
     Uso: /api/cart/one/:id
 
     Out: {
           record: Registro
-          status: Codigo de error
+          status: Código de error
          }
 
-3)  Agrega un registro al carrito
+### 3)  Agregar un registro al carrito
 
     Uso: /api/cart/add (Post)
-    Debe informar el body (como parametros del fetch/axios) con los campos a actualizar
+    Debe informar el body (como parámetros del fetch/axios) con los campos a actualizar
 
-4)  Actualiza un registro del carrito
+### 4)  Actualizar un registro del carrito
 
     Uso: /api/cart/upd/:id (Post)
-    Debe informar el body (como parametros del fetch/axios) con los campos a actualizar
+    Debe informar el body (como parámetros del fetch/axios) con los campos a actualizar
 
-5)  Elimina un registro del carrito
+### 5)  Eliminar un registro del carrito
 
     Uso: /api/cart/del/:id (Post)
 
-6)  Cancela un item del carrito
+### 6)  Cancelar un registro del carrito
 
     Uso: /api/cart/can/:id (Post)
 
-7)  Vacia el carrito
+### 7)  Vaciar el carrito
 
     Uso: /api/cart/empty/:userId (Post)
 
-8)  Factura el carrito
+### 8)  Facturar el carrito
 
     Uso: /api/cart/pay/:userId (Post)
 
-9)  Suma un producto
+### 9)  Sumar un producto
 
     Uso: /api/cart/moreOne/:id (Post)
 
-10) Resta un producto
+### 10) Restar un producto
 
     Uso: /api/cart/lessOne/:id (Post)

@@ -2,6 +2,7 @@
 ignorar/
 **/node_modules/
 **/config.js
+**/backup
 
 
 # Logs

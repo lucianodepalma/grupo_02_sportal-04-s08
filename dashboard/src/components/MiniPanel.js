@@ -1,25 +1,31 @@
-import React, {useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import "../assets/css/MiniPanel.css";
+import StatusContext from './Status'
 
 const MiniPanel = (props) => {
-    console.log(props.row);
-    
+
+
+    const {status, setStatus} = useContext(StatusContext);
     const [condition, setCondition] = useState(false);
-    // const buttn = useRef(null)
-    // useEffect(() =>{
-    //     elStyle.className = state;
-    // },[state]
 
-    // )
+    useEffect(() => {
+        (status === props.concept) ? setCondition(true) : setCondition(false);
+    }, [status, props])
 
-    function actionClick(e) {
-        // e.preventDefault();
-        !condition ? setCondition(true) : setCondition(false);
-        console.log("click");
-        setTimeout(function () {
-            setCondition(false);
-            }, 10000);
+    const actionClick = () => {
+        (status === props.concept) ? setCondition(true) : setStatus(props.concept);
+        
+        console.log(props, status);
     }
+    // function actionClick(e) {
+    //     (status === props.concept) ? setCondition(true) : setCondition(false);
+    //     !condition ? setStatus(props.concept) : setCondition(true);
+
+    //     console.log("click", status);
+    //     // setTimeout(function () {
+    //     //     setCondition(false);
+    //     //     }, 10000);
+    // }
 
     return (
         <React.Fragment>

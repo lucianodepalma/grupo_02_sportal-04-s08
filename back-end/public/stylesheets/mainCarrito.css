@@ -113,6 +113,10 @@
   padding: 1px;
   text-align: center;
 }
+.delete-link{
+  position: relative;
+  top:2px;
+}
 
 .counter {
   display: flex;

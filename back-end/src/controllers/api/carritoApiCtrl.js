@@ -14,7 +14,7 @@ const { sequelize } = require('../../database/models');
 const controller = {
   someRecords:
     // Obtiene todos los registros desde n days
-    // Uso: /api/cart/all/:days
+    // Uso: /api/cart/some/:days
     // Out: {
     //        count:   Cantidad de registros
     //        records: Array de registros

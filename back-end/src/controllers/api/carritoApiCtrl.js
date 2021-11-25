@@ -9,7 +9,7 @@ const config = require("../../controllers/config.js");
 // Controller
 const controller = {
   allRecords:
-    // Obtiene todos los registros de un usuario
+    // Obtiene todos los registros de un usuario ordenados por fecha de ultima modificacion
     // Uso: /api/cart/all/:userId
     // Out: {
     //        count:   Cantidad de registros
@@ -21,7 +21,9 @@ const controller = {
         where: {
           user_id: req.params.userId,
           status_id: 1
-        }
+        },
+        order: [['updated_at', 'DESC']],
+        raw: true
       })
       .then(function(records) {
         let result = {

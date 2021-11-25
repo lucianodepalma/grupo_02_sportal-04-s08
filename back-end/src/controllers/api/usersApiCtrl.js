@@ -8,7 +8,7 @@ const config = require("../../controllers/config.js");
 
 // Controller
 const controller = {
-  // Devuelve todos los usuarios
+  // Devuelve todos los usuarios ordenados por apellido y nombre
   allUsers:
     // Uso: /api/users/?rpp=<number>&page=<number>
     // donde: rpp es la cantidad de registros por pagina
@@ -22,12 +22,13 @@ const controller = {
       // Paginacion
       let rpp = (req.query.rpp ? req.query.rpp : 0);
       let page = (req.query.page ? req.query.page : 1);
-      let params = {};
+      let params = {
+        order: [["last_name", "ASC"], ["first_name", "ASC"]],
+        raw: true
+      };
       if (rpp > 0) {
-        params = {
-          limit: Number(rpp),
-          offset: Number(rpp * (page - 1))
-        }
+        params.limit = Number(rpp);
+        params.offset = Number(rpp * (page - 1));
       }
       // Seleccion
       db.User.findAndCountAll(params)

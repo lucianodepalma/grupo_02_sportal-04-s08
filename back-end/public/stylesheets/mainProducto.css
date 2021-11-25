@@ -142,6 +142,11 @@
   font-size: 4em;
   margin-left: 5px;
 }
+.desc-button #go-to-cart #cart {
+  position: relative;
+  bottom:3px;
+  width:40px;
+}
 .similar-products {
   display: flex;
   flex-direction: column;

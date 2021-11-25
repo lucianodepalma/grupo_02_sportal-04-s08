@@ -2,39 +2,73 @@
 
 // In / Out File System
 const db = require('../../database/models');
+const { Op } = require("sequelize");
 
 // Config
 const config = require("../../controllers/config.js");
 
 // Controller
 const controller = {
-  // Devuelve todos los productos
   allProducts:
-    // Uso: /api/products/?rpp=<number>&page=<number>
+    // Devuelve todos los productos ordenados por fecha de ultima modificacion
+    // Uso:   /api/products/?rpp=<number>&page=<number>&field=<opc>&value=<valor>
     // donde: rpp es la cantidad de registros por pagina
     //        page es la pagina que se desea obtener
-    // Out: {
+    //        field es un string que identifica el campo por el que efectuara el filtrado
+    //        value es el valor por el que debe filtrarse
+    // Opc:   Las opciones son: age, brand, color, family, heading y sex.
+    //        Si se informa field debe informarse value y viceversa.
+    // Out:  {
     //        count: Cantidad de productos
     //        products: Array de productos
     //        status: Codigo de error
-    //      }
+    //       }
     function (req, res) {
+      let params = {};
       // Paginacion
       let rpp = (req.query.rpp ? req.query.rpp : 0);
       let page = (req.query.page ? req.query.page : 1);
-      let params = {};
       if (rpp > 0) {
         params = {
           limit: Number(rpp),
-          offset: Number(rpp * (page - 1))
+          offset: Number(rpp * (page - 1)),
         }
       }
+      // Filtros
+      let field = (req.query.field ? req.query.field : "");
+      let valor = (req.query.value ? req.query.value : "");
+      if (!(field == "" || valor == "")) {
+        params.where = {};
+        switch (field.toLowerCase()) {
+          case "age":
+            params.where["age_id"] = valor;
+            break;
+          case "brand":
+            params.where["brand_id"] = valor;
+            break;
+          case "color":
+            params.where["color_id"] = valor;
+            break;
+          case "family":
+            params.where["family_id"] = valor;
+            break;
+          case "heading":
+            params.where["heading_id"] = valor;
+            break;
+          case "sex":
+            params.where["sex_id"] = valor;
+            break;
+        }
+      }
+      // Ordenamiento
+      params.order = [['updated_at', 'DESC']];
+      params.raw = true;
       // Productos y categorias
-      db.Product.findAll(params)
+      db.Product.findAndCountAll(params)
       .then(function(products) {
         // Preparo array a devolver
         let productArray = [];
-        products.map(function (elem) {
+        products.rows.map(function (elem) {
           // Arma el OL del producto
           let product = {
             id: elem.id,
@@ -47,7 +81,7 @@ const controller = {
         });
         // Completo el OL a devolver
         let result = {
-          count: products.length,
+          count: products.count,
           products: productArray,
           status: 200
         }
@@ -58,8 +92,8 @@ const controller = {
       });
     }
   ,
-  // Devuelve un usuario
   oneProduct:
+    // Devuelve un usuario
     // Uso: /api/products/:id
     // Out: {
     //        id: ID de producto
@@ -177,8 +211,8 @@ const controller = {
       });
     }
   ,
-  // Devuelve un array con la cantidad de productos por categoria
   totalByCategory:
+    // Devuelve un array con la cantidad de productos por categoria
     // Uso: /api/products/total
     // Out: {
     //        count: Cantidad de productos
@@ -215,6 +249,60 @@ const controller = {
         let result = {
           count: products.length,
           countByCategory: headingArray,
+          status: 200
+        }
+        res.status(200).json(result);
+      })
+      .catch(function(errMsg) {
+        res.json(errMsg);
+      });
+    }
+  ,
+  searchProducts:
+    // Efectúa una búsqueda de producto por modelo
+    // Uso:   /api/products/search/?rpp=<number>&page=<number>&searchString=<valor>
+    // donde: rpp es la cantidad de registros por pagina
+    //        page es la pagina que se desea obtener
+    //        searchString es el valor por el que debe efectuarse la búsqueda
+    // Out:  {
+    //        count: Cantidad de productos
+    //        products: Array de productos
+    //        status: Codigo de error
+    //       }
+    function (req, res) {
+      let params = {
+        where: {model: {[Op.like]: "%" + req.query.searchString + "%"}}
+      };
+      // Paginacion
+      let rpp = (req.query.rpp ? req.query.rpp : 0);
+      let page = (req.query.page ? req.query.page : 1);
+      if (rpp > 0) {
+        params.limit = Number(rpp);
+        params.offset = Number(rpp * (page - 1));
+      }
+      // Ordenamiento
+      params.order = [['updated_at', 'DESC']];
+      params.raw = true;
+      // Productos
+      db.Product.findAndCountAll(params)
+      .then(function(products) {
+        // Preparo array a devolver
+        let productArray = [];
+        products.rows.map(function (elem) {
+          // Arma el OL del producto
+          let product = {
+            id: elem.id,
+            name: elem.model,
+            description: elem.desc,
+            image: config.misc.urlSite + config.misc.pathImages + elem.image,
+            detail: config.misc.urlSite + "/api/products/" + elem.id
+          }
+          productArray.push(product);
+        });
+        // Completo el OL a devolver
+        let result = {
+          count: products.count,
+          products: productArray,
           status: 200
         }
         res.status(200).json(result);

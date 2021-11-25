@@ -5,9 +5,8 @@ Salvo indicación, todos los endpoints son consumidos mediante un **GET**.<br>
 Todos devuelven una respuesta en formato **JSON**.
 
 ## **Usuarios**<br>
-Dispone de 2 endpoints:
 
-### Obtener todos los usuarios
+### Obtener todos los usuarios ordenados por apellido y nombre
 
     Uso: /api/users/?rpp=<number>&page=<number>
     donde: rpp es la cantidad de registros por página
@@ -41,19 +40,23 @@ Dispone de 2 endpoints:
          }
 
 ## **Productos**<br>
-Dispone de 3 endpoints:
 
-### Obtener todos los productos
+### Obtener todos los productos ordenados por fecha de última modificación
 
-    Uso: /api/products/?rpp=<number>&page=<number>
-    donde: rpp es la cantidad de registros por página
-           page es la página que se desea obtener
+    Uso:   /api/products/?rpp=<number>&page=<number>&field=<opc>&value=<valor>
+    donde: rpp es la cantidad de registros por pagina
+           page es la pagina que se desea obtener
+           field es un string que identifica el campo por el que efectuara el filtrado
+           value es el valor por el que debe filtrarse
 
-    Out: {
-          count: Cantidad de productos
-          products: Array de productos
-          status: Código de error
-         }
+    Opc:   Las opciones son: age, brand, color, family, heading y sex.
+           Si se informa field debe informarse value y viceversa.
+
+    Out:  {
+           count: Cantidad de productos
+           products: Array de productos
+           status: Código de error
+          }
 
 ### Obtener un producto
 
@@ -97,10 +100,21 @@ Dispone de 3 endpoints:
           status: Código de error
          }
 
-## **Carrito**<br>
-Dispone de 10 endpoints:
+### Buscar productos por modelo ordenados por fecha de última modificación
 
-### Obtener todos los registros de un usuario
+    Uso:   /api/products/search/?rpp=<number>&page=<number>&searchString=<valor>
+    donde: rpp es la cantidad de registros por pagina
+           page es la pagina que se desea obtener
+           searchString es el valor por el que debe efectuarse la búsqueda
+    Out:  {
+           count: Cantidad de productos
+           products: Array de productos
+           status: Codigo de error
+          }
+
+## **Carrito**<br>
+
+### Obtener todos los registros de un usuario ordenados por fecha de última modificación
 
     Uso: /api/cart/all/:userId
 

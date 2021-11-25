@@ -2,7 +2,9 @@ import { createContext } from "react";
 
 const StatusContext = createContext({
     status: 'productos',
-    setStatus: (estado) => {}
+    paginado: {paginaActual:1,ultimaPagina:1},
+    setStatus: (estado) => {},
+    setPaginado: (pagina) => {}
 });
 
 

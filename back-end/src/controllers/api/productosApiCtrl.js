@@ -75,6 +75,7 @@ const controller = {
             name: elem.model,
             description: elem.desc,
             image: config.misc.urlSite + config.misc.pathImages + elem.image,
+            price: elem.price,
             detail: config.misc.urlSite + "/api/products/" + elem.id
           }
           productArray.push(product);
@@ -294,7 +295,8 @@ const controller = {
             id: elem.id,
             name: elem.model,
             description: elem.desc,
-            image: config.misc.urlSite + config.misc.pathImages + elem.image,
+            image: config.misc.pathImages + elem.image,
+            price: elem.price,
             detail: config.misc.urlSite + "/api/products/" + elem.id
           }
           productArray.push(product);

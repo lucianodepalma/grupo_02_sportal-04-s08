@@ -13,6 +13,7 @@ const methodOverride = require("method-override");
 const session = require("express-session");
 const recordame = require('./middlewares/recordame.js');
 const usuarioLogueado = require('./middlewares/usuarioLogueado.js');
+const cors = require('cors')
 
 // routers
 const indexRouter = require('./routes/indexRouter.js');
@@ -41,6 +42,7 @@ app.use(session({secret: "HugoLucianoSergio", resave: true, saveUninitialized: t
 app.use(recordame);
 app.use(usuarioLogueado);
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(cors())
 
 // routes
 app.use('/productos', productosRouter);

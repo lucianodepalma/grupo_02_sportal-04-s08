@@ -39,6 +39,7 @@ const controller = {
             id: elem.id,
             email: elem.email,
             name: elem.last_name + " " + elem.first_name,
+            avatar: config.misc.urlSite + config.misc.pathAvatar + elem.avatar,
             detail: config.misc.urlSite + "/api/users/" + elem.id
           }
           userArray.push(user);

@@ -40,6 +40,7 @@ const controller = {
             id: elem.id,
             name: elem.model,
             description: elem.desc,
+            image: config.misc.urlSite + config.misc.pathImages + elem.image,
             detail: config.misc.urlSite + "/api/products/" + elem.id
           }
           productArray.push(product);

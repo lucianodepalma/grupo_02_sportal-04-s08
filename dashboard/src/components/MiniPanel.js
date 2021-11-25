@@ -10,12 +10,13 @@ const MiniPanel = (props) => {
 
     useEffect(() => {
         (status === props.concept) ? setCondition(true) : setCondition(false);
+        console.log(status);
     }, [status, props])
 
     const actionClick = () => {
         (status === props.concept) ? setCondition(true) : setStatus(props.concept);
         
-        console.log(props, status);
+        console.log(props);
     }
     // function actionClick(e) {
     //     (status === props.concept) ? setCondition(true) : setCondition(false);

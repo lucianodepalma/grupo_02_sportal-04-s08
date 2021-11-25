@@ -4,8 +4,9 @@ import BigPanelImage from './BigPanelImage'
 import BigPanelText from './BigPanelText'
 import Chart from './Chart'
 
-const BigPanel = () => {
-    const flagChart = true;
+const BigPanel = (props) => {
+    const flagChart = !props.flag;
+    console.log(flagChart)
     const bigImage = "images/select200/AD_CM8534-1.JPG"
     return (
         <>

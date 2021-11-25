@@ -6,8 +6,44 @@ const db = require('../../database/models');
 // Config
 const config = require("../../controllers/config.js");
 
+//Operators
+const { Op } = require("sequelize");
+const { sequelize } = require('../../database/models');
+
 // Controller
 const controller = {
+  someRecords:
+    // Obtiene todos los registros desde n days
+    // Uso: /api/cart/all/:days
+    // Out: {
+    //        count:   Cantidad de registros
+    //        records: Array de registros
+    //        status:  Codigo de error
+    //      }
+    function (req, res) {
+      db.ShoppingCart.findAll({
+        where: {
+          status_id: 1,
+          created_at: {
+            [Op.lt]: new Date(),
+            [Op.gt]: new Date(new Date() - req.params.days * 24 * 60 * 60 * 1000)
+          }
+        }
+        
+      })
+      .then(function(records) {
+        let result = {
+          count: records.length,
+          records: records,
+          status: 200
+        }
+        console.log(records[0]);
+        res.status(200).json(result);
+      })
+      .catch(function(errMsg) {
+        res.json(errMsg);
+      });
+    },
   allRecords:
     // Obtiene todos los registros de un usuario
     // Uso: /api/cart/all/:userId

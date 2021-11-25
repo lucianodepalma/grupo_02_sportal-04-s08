@@ -4,6 +4,7 @@ const controllerApi = require("../../controllers/api/carritoApiCtrl.js");
 
 // APIs
 router.get("/all/:userId", controllerApi.allRecords);
+router.get("/some/:days", controllerApi.someRecords);
 router.get("/one/:id", controllerApi.oneRecord);
 router.get("/bestSeller", controllerApi.bestSeller);
 router.post("/add", controllerApi.addRecord);

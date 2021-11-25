@@ -253,9 +253,11 @@ window.addEventListener ('load', function () {
             }
             e.preventDefault();
         };
-    })
-    
-})
+    });
+
+    document.querySelector("#password").focus();
+
+});
 
 function okImage (valor, extensions) {
     let ext = "";

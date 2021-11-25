@@ -75,25 +75,25 @@ const controller = {
     }
   ,
   oneRecord:
-  // Obtiene un registro
-  // Uso: /api/cart/one/:id
-  // Out: {
-  //        record: Registro
-  //        status: Codigo de error
-  //      }
-  function (req, res) {
-    db.ShoppingCart.findByPk(req.params.id)
-    .then(function(record) {
-      let result = {
-        record: record,
-        status: 200
-      }
-      res.status(200).json(result);
-    })
-    .catch(function(errMsg) {
-      res.json(errMsg);
-    });
-  }
+    // Obtiene un registro
+    // Uso: /api/cart/one/:id
+    // Out: {
+    //        record: Registro
+    //        status: Codigo de error
+    //      }
+    function (req, res) {
+      db.ShoppingCart.findByPk(req.params.id)
+      .then(function(record) {
+        let result = {
+          record: record,
+          status: 200
+        }
+        res.status(200).json(result);
+      })
+      .catch(function(errMsg) {
+        res.json(errMsg);
+      });
+    }
   ,
   addRecord:
     // Agrega un registro al carrito
@@ -114,7 +114,7 @@ const controller = {
         res.json(errMsg);
       });
     }
-    ,
+  ,
   updRecord:
     // Actualiza un registro del carrito
     // Uso: /api/cart/upd/:id (Post)
@@ -251,6 +251,55 @@ const controller = {
         } else {
           res.status(200).json(record);
         }
+      })
+      .catch(function(errMsg) {
+        res.json(errMsg);
+      });
+    }
+  ,
+  bestSeller:
+    // Obtiene el producto mas vendido
+    // Uso: /api/cart/bestSeller
+    // Out: {
+    //        record: Producto mas vendido
+    //        status:  Codigo de error
+    //      }
+    function (req, res) {
+      db.ShoppingCart.findAll({
+        where: {
+          status_id: 2
+        }
+      })
+      .then(function(records) {
+        let codes = [];
+        let sales = [];
+        let record = [];
+        let idx = 0;
+        records.map(function(elem) {
+          let code = elem.product_id;
+          let idx = codes.findIndex(function(elem) {;
+            if (idx < 0) {
+              codes.push(code);
+              sales.push(1);
+              record.push(elem);
+            } else {
+              sales[idx] = sales[idx] + 1;
+            }
+          });
+        });
+        idx = 0
+        let max = 0;
+        for (let i = 0 ; i < sales.length ; i++) {
+          if (sales[i] > max) {
+            max = sales[i];
+            idx = i;
+          }
+        };
+        let result = {
+          record: record[idx],
+          status: 200
+        }
+        res.status(200).json(result);
       })
       .catch(function(errMsg) {
         res.json(errMsg);

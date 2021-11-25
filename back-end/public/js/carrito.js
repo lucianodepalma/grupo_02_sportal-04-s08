@@ -4,7 +4,7 @@ window.onload = function () {
   let vaciarCarrito = document.querySelector("#btn-vaciar");
   vaciarCarrito.addEventListener("click", function(e) {
     e.preventDefault();
-    if (qtyItems > 0) {
+    if (qtyItems() > 0) {
       let resp = confirm("Es Ud seguro de vaciar su carrito ?");
       if (resp) {
         changeStatus(getUserId(), false);
@@ -18,7 +18,7 @@ window.onload = function () {
   let pagarCarrito = document.querySelector("#btn-pagar");
   pagarCarrito.addEventListener("click", function(e) {
     e.preventDefault();
-    if (qtyItems > 0) {
+    if (qtyItems() > 0) {
       let resp = confirm("Es Ud seguro que desea facturar su compra ?");
       if (resp) {
         changeStatus(getUserId(), true);

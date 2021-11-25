@@ -60,6 +60,8 @@ window.addEventListener('load', function() {
     const enterKey = 13;
     let buttonLogin = document.querySelector(".login-button");
     
+    document.querySelector("#usuario").focus();
+
     let textBoxUser = document.querySelector("#usuario");
     textBoxUser.addEventListener("keydown", function(e) {
         if (e.keyCode == enterKey) {

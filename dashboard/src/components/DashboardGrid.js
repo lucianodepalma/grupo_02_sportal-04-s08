@@ -23,9 +23,9 @@ function DashboardGrid(props) {
         .then (response => response.json())
         .then(data => {
             setProductos(data)
-            setPaginado({ultimaPagina: 
+            /* setPaginado({ultimaPagina: 
                 data.count % 18 !== 0 ? Math.round(data.count/18) + 1 : data.count/18
-            })
+            }) */
         })
     }, []);
 
@@ -57,7 +57,7 @@ function DashboardGrid(props) {
     //}
     
     return (
-        <StatusContext.Provider value={{status, setStatus, paginado, setPaginado}}>
+        <StatusContext.Provider value={{status, setStatus}}>
         <div className="dashboardgrid">
 
         <MiniPanel row={1} col={1} num={productos.count} concept={"productos"} />

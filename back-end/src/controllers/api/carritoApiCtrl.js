@@ -11,6 +11,11 @@ const controller = {
   allRecords:
     // Obtiene todos los registros de un usuario
     // Uso: /api/cart/all/:userId
+    // Out: {
+    //        count:   Cantidad de registros
+    //        records: Array de registros
+    //        status:  Codigo de error
+    //      }
     function (req, res) {
       db.ShoppingCart.findAll({
         where: {
@@ -34,6 +39,10 @@ const controller = {
   oneRecord:
   // Obtiene un registro
   // Uso: /api/cart/one/:id
+  // Out: {
+  //        record: Registro
+  //        status: Codigo de error
+  //      }
   function (req, res) {
     db.ShoppingCart.findByPk(req.params.id)
     .then(function(record) {
@@ -51,6 +60,7 @@ const controller = {
   addRecord:
     // Agrega un registro al carrito
     // Uso: /api/cart/add (Post)
+    // Debe informar el body (como parametros del fetch/axios) con los campos a actualizar
     function (req, res) {
       db.ShoppingCart.create({
         user_id: req.body.userId,
@@ -70,6 +80,7 @@ const controller = {
   updRecord:
     // Actualiza un registro del carrito
     // Uso: /api/cart/upd/:id (Post)
+    // Debe informar el body (como parametros del fetch/axios) con los campos a actualizar
     function (req, res) {
       db.ShoppingCart.update({
         user_id: req.body.userId,

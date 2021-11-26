@@ -23,7 +23,7 @@ const controller = {
     function (req, res) {
       db.ShoppingCart.findAll({
         where: {
-          status_id: 1,
+          status_id: 2,
           created_at: {
             [Op.lt]: new Date(),
             [Op.gt]: new Date(new Date() - req.params.days * 24 * 60 * 60 * 1000)
@@ -261,8 +261,8 @@ const controller = {
     // Obtiene el producto mas vendido
     // Uso: /api/cart/bestSeller
     // Out: {
-    //        record: Producto mas vendido
-    //        status:  Codigo de error
+    //       record: Producto mas vendido
+    //       status:  Codigo de error
     //      }
     function (req, res) {
       db.ShoppingCart.findAll({
@@ -273,19 +273,18 @@ const controller = {
       .then(function(records) {
         let codes = [];
         let sales = [];
-        let record = [];
         let idx = 0;
         records.map(function(elem) {
           let code = elem.product_id;
-          let idx = codes.findIndex(function(elem) {;
-            if (idx < 0) {
-              codes.push(code);
-              sales.push(1);
-              record.push(elem);
-            } else {
-              sales[idx] = sales[idx] + 1;
-            }
+          let idx = codes.findIndex(function(elem) {
+            return (code == elem)
           });
+          if (idx < 0) {
+            codes.push(code);
+            sales.push(elem.quantity);
+          } else {
+            sales[idx] = sales[idx] + elem.quantity;
+          }
         });
         idx = 0
         let max = 0;
@@ -295,11 +294,23 @@ const controller = {
             idx = i;
           }
         };
-        let result = {
-          record: record[idx],
-          status: 200
-        }
-        res.status(200).json(result);
+        let productId = codes[idx];
+        db.Product.findByPk(productId)
+        .then(function(record) {
+          if (record.image) {record.image = config.misc.urlSite + config.misc.pathImages + record.image}
+          if (record.left_image) {record.left_image = config.misc.urlSite + config.misc.pathImages + record.left_image}
+          if (record.right_image) {record.right_image = config.misc.urlSite + config.misc.pathImages + record.right_image}
+          if (record.upper_image) {record.upper_image = config.misc.urlSite + config.misc.pathImages + record.upper_image}
+          if (record.lower_image) {record.lower_image = config.misc.urlSite + config.misc.pathImages + record.lower_image}
+          let result = {
+            record: record,
+            status: 200
+          }
+          res.status(200).json(result);
+        })
+        .catch(function(errMsg) {
+          res.json(errMsg);
+        }); 
       })
       .catch(function(errMsg) {
         res.json(errMsg);

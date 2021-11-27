@@ -22,6 +22,7 @@ const controller = {
     //      }
     function (req, res) {
       db.ShoppingCart.findAll({
+        // include:[{association:"model"}],
         where: {
           status_id: 1,
           created_at: {

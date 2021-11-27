@@ -4,7 +4,7 @@ Todos los endpoints se encuentran en la carpeta **src/controllers/api**.<br>
 Salvo indicación, todos los endpoints son consumidos mediante un **GET**.<br>
 Todos devuelven una respuesta en formato **JSON**.
 
-## **Usuarios**<br>
+## **Usuarios**
 
 ### Obtener todos los usuarios ordenados por apellido y nombre
 
@@ -39,7 +39,7 @@ Todos devuelven una respuesta en formato **JSON**.
           status: Código de error
          }
 
-## **Productos**<br>
+## **Productos**
 
 ### Obtener todos los productos ordenados por fecha de última modificación
 
@@ -112,7 +112,7 @@ Todos devuelven una respuesta en formato **JSON**.
            status: Codigo de error
           }
 
-## **Carrito**<br>
+## **Carrito**
 
 ### Obtener todos los registros de un usuario ordenados por fecha de última modificación
 
@@ -166,3 +166,12 @@ Todos devuelven una respuesta en formato **JSON**.
 ### Restar un producto
 
     Uso: /api/cart/lessOne/:id (Post)
+
+### Producto más vendido
+
+    Uso: /api/cart/bestSeller
+    
+    Out: {
+          record: Producto mas vendido
+          status:  Codigo de error
+         }

@@ -39,6 +39,7 @@ const controller = {
           }
           // Otros productos similares
           let maxItems = ((newData.length / 4).toFixed(0)) * 4;
+          if (maxItems < 4) {maxItems = 4}
           let others = [];  
           db.Product.findAll()
           .then(function(prodList) {

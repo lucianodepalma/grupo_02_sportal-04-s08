@@ -1,13 +1,68 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import "../assets/css/normalize.css"; 
 import "../assets/css/style.css"; 
 import "../assets/css/header.css";
 
 import DashboardGrid from './DashboardGrid';
+
+const axios = require('axios').default;
 // import HeaderPanel from "./HeaderPanel"
 
+// function App() {
+//     const [searchTerm, setSearchTerm] = React.useState("");
+//      const handleChange = event => {
+//        setSearchTerm(event.target.value);
+//      };
+//      return (
+//        <div className="App">
+//          <input
+//            type="text"
+//            placeholder="Search"
+//            value={searchTerm}
+//            onChange={handleChange}
+//          />
+//          <ul>
+//            <li>Item 1</li>
+//            <li>Item 2</li>
+//          </ul>
+//        </div>
+//      );
+//    }
 
-function header () {
+
+function Header () {
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchResp, setSearchResp] = useState({});
+    
+    
+
+    // useEffect(() => {
+    //     console.log("resp: ", searchResp)
+        
+    // }, [searchResp])
+
+    const handleChange = (event) => {
+        event.preventDefault();
+        setSearchTerm(event.target.value);
+        console.log("hadle: ",event.target.value)
+    };
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/api/products/search/?rpp=10&page=1&searchString='+ searchTerm)
+        .then( ((response) => {
+            
+            setSearchResp(response.data);
+            console.log("axios: ", searchTerm ,response.data)
+        }))
+        .catch( (error =>{
+            console.log(error)
+        }))
+        
+        return () => {
+           
+        }
+    }, [searchTerm])
+
     return (
         <React.Fragment>
             <div className="container">
@@ -17,7 +72,7 @@ function header () {
 
                 <div className="header-upper"></div>
                 <div className="header-banner">
-                    <DashboardGrid />
+                    <DashboardGrid searchData={searchResp}/>
                 </div>
                  <div className="header-circle"><a href="/" ><span className="circle-link"></span></a></div> 
                 
@@ -26,7 +81,7 @@ function header () {
 
                 <div className="header-search-box">
                     <form className="form-search-submit" action="/productos/search" method="GET">
-                        <input className="header-search-input" type="search" name="searchString" placeholder="Ingrese su búsqueda" autoComplete="false" />
+                        <input onChange={handleChange} className="header-search-input" type="text" name="searchString" value={searchTerm} placeholder="Ingrese su búsqueda" autoComplete="false" />
                     </form>
                 </div>
 
@@ -55,4 +110,4 @@ function header () {
     )
 }
 
-export default header;
+export default Header;

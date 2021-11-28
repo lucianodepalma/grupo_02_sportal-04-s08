@@ -4,10 +4,10 @@
     border:none;
     border-radius: 20px;
     z-index: 10000;
-    perspective: 1000px; /* Remove this if you don't want the 3D effect */
+    perspective: 1000px; /* 3D effect */
 }
 
-/* The flip box container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+/* The flip box container */
 
   
   /* This container is needed to position the front and back side */

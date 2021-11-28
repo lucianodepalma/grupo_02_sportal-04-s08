@@ -47,6 +47,13 @@ function DashboardGrid(props) {
         })
     }, []);
 
+    useEffect(() => {
+        console.log("dash: ", props)
+        return () => {
+            
+        }
+    }, [props])
+
     //const paginadoMas = () => {
     //    setPaginado({paginaActual: paginado.paginaActual + 1});
     //    console.log('mas', paginaActual)
@@ -68,7 +75,7 @@ function DashboardGrid(props) {
         <MiniPanel row={2} col={2} num={tipos.length} concept={"tipos"} />
         <MiniPanel row={2} col={3} num={"1.600"} concept={"ventas / mes"} bg={"#a0a0a0"} clr={"#ffffff"}  />
         <BigPanel flag={ (status === "ventas / mes") ? true :false }/>
-        <ProductContainer />
+        <ProductContainer searchDataDash = {props} />
         <div className="bar" dangerouslySetInnerHTML={{__html: pages}}/>
             <i className="left fas fa-angle-double-left"/>
             <i className="right fas fa-angle-double-right"/>

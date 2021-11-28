@@ -91,7 +91,7 @@ function DashboardGrid(props) {
         <MiniPanel row={2} col={3} num={"1.600"} concept={"ventas / mes"} bg={"#a0a0a0"} clr={"#ffffff"}  />
         <BigPanel flag={ (status === "ventas / mes") ? true :false }/>
         <ProductContainer searchDataDash = {props} />
-        <div className="bar" dangerouslySetInnerHTML={{__html: paginaActual+"/" + props.searchData.pages + " paginas"}}/>
+        <div className="bar" dangerouslySetInnerHTML={{__html:((props.searchData.pages === 0) ? " Sin resultados" :( paginaActual+"/" + props.searchData.pages + " paginas"))}}/>
             <i onClick={backPageHandler} className="left fas fa-angle-double-left"/>
             <i onClick={forwardPageHandler} className="right fas fa-angle-double-right"/>
         </div>

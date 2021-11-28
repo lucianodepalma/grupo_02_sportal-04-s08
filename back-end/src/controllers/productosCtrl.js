@@ -46,7 +46,7 @@ const controller = {
                 let idx = 0;
                 let i = 0;
                 do {
-                  idx = (Math.random() * (newProducts.length - 1)).toFixed(0);
+                  idx = Math.trunc(Math.random() * (newProducts.length - 1));
                   if (!idxs.includes(idx)) {
                     idxs.push(idx);
                     others.push(newProducts[idx]);
@@ -433,7 +433,7 @@ function similars (req, family, maxItems) {
           let idx = 0;
           let i = 0;
           do {
-            idx = (Math.random() * (newProducts.length - 1)).toFixed(0);
+            idx = Math.trunc(Math.random() * (newProducts.length - 1));
             if (!idxs.includes(idx)) {
               idxs.push(idx);
               others.push(newProducts[idx]);

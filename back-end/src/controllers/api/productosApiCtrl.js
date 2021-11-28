@@ -31,7 +31,7 @@ const controller = {
       if (rpp > 0) {
         params = {
           limit: Number(rpp),
-          offset: Number(rpp * (page - 1)),
+          offset: Number(rpp * (page - 1))
         }
       }
       // Filtros
@@ -268,6 +268,10 @@ const controller = {
     // Out:  {
     //        count: Cantidad de productos
     //        products: Array de productos
+    //        headings: Cantidad de rubros
+    //        brands: Cantidad de marcas
+    //        families: Cantidad de familias de producto
+    //        pages: Cantidad de paginas. Si no se utilizo paginado el valor es cero.
     //        status: Codigo de error
     //       }
     function (req, res) {
@@ -285,26 +289,99 @@ const controller = {
       params.order = [['updated_at', 'DESC']];
       params.raw = true;
       // Productos
-      db.Product.findAndCountAll(params)
-      .then(function(products) {
+      let products = db.Product.findAndCountAll(params);
+      let totProducts = db.Product.findAll({
+        where: {model: {[Op.like]: "%" + req.query.searchString + "%"}}
+      });
+      // Ventas de los ultimos 30 dias
+      let ventas = db.ShoppingCart.findAll({
+        where: {
+          status_id: 2,
+          created_at: {
+            [Op.lt]: new Date(),
+            [Op.gt]: new Date(new Date() - 30 * 24 * 60 * 60 * 1000)
+          }
+        }
+      });
+      Promise.all([products, totProducts, ventas])
+      .then(function([products, totProducts, ventas]) {
+        // Calcula ventas de los ultimos 30 dias
+        let articulos = [];
+        let cantidad = [];
+        let importe = [];
+        let idx = 0;
+        ventas.map(function(elem) {
+          let code = elem.product_id;
+          idx = articulos.findIndex(function(elem) {
+            return (code == elem);
+          });
+          if (idx < 0) {
+            articulos.push(code);
+            cantidad.push(elem.quantity);
+            importe.push(elem.price * elem.quantity);
+          } else {
+            cantidad[idx] = cantidad[idx] + elem.quantity;
+            importe[idx] = importe[idx] + (elem.price * elem.quantity);
+          }
+        });
         // Preparo array a devolver
         let productArray = [];
         products.rows.map(function (elem) {
+          // Ventas para el producto
+          let sales = 0;
+          let qty = 0;
+          idx = articulos.findIndex(function(item) {
+            return (item == elem.id);
+          });
+          if (!(idx < 0)) {
+            sales = importe[idx];
+            qty = cantidad[idx];
+          }
           // Arma el OL del producto
           let product = {
             id: elem.id,
             name: elem.model,
             description: elem.desc,
-            image: config.misc.pathImages + elem.image,
+            image: config.misc.urlSite + config.misc.pathImages + elem.image,
             price: elem.price,
-            detail: config.misc.urlSite + "/api/products/" + elem.id
+            detail: config.misc.urlSite + "/api/products/" + elem.id,
+            sales: sales.toFixed(2),
+            quantity: qty
           }
           productArray.push(product);
         });
+        // Calculo total por headings, brands y families
+        let headings = [];
+        let brands = [];
+        let families = [];
+        totProducts.map(function(elem) {
+          let heading = elem.heading_id;
+          if (!headings.includes(heading)) {
+            headings.push(heading);
+          }
+          let brand = elem.brand_id;
+          if (!brands.includes(brand)) {
+            brands.push(brand);
+          }
+          let family = elem.family_id;
+          if (!families.includes(family)) {
+            families.push(family);
+          }
+        })
+        // Paginas
+        let pages = 0;
+        if (rpp > 0) {
+          pages = Math.trunc(totProducts.length / rpp);
+          if ((totProducts.length % rpp) > 0) {pages++}
+        }
         // Completo el OL a devolver
         let result = {
           count: products.count,
           products: productArray,
+          headings: headings.length,
+          brands: brands.length,
+          families: families.length,
+          pages: pages,
           status: 200
         }
         res.status(200).json(result);

@@ -8,7 +8,6 @@ const config = require("../../controllers/config.js");
 
 //Operators
 const { Op } = require("sequelize");
-const { sequelize } = require('../../database/models');
 
 // Controller
 const controller = {
@@ -30,7 +29,6 @@ const controller = {
             [Op.gt]: new Date(new Date() - req.params.days * 24 * 60 * 60 * 1000)
           }
         }
-        
       })
       .then(function(records) {
         let result = {
@@ -277,8 +275,8 @@ const controller = {
         let idx = 0;
         records.map(function(elem) {
           let code = elem.product_id;
-          let idx = codes.findIndex(function(elem) {
-            return (code == elem)
+          idx = codes.findIndex(function(elem) {
+            return (code == elem);
           });
           if (idx < 0) {
             codes.push(code);

@@ -5,7 +5,7 @@ const db = require('../database/models');
 
 //Requisitos de registracion
 const {validationResult} = require('express-validator');
-const config = require("../controllers/config.js");
+const config = require("./config.js");
 const bcrypt = require('bcryptjs');
 const {getToken, getTokenData} = require("../functions/jwt.js");
 const {correo} = require("../functions/mailer.js");
@@ -78,7 +78,8 @@ const controller = {
           uuid: uuidStr
         })
         .then(function() {
-          res.send("Se ha enviado un correo a " + email);
+          let txt = "Se ha enviado un correo a " + email
+          res.send(htmlMsg(txt));
         })
         .catch(function(errmsg) {
           res.send(errmsg);
@@ -223,6 +224,22 @@ const controller = {
       res.send("No se pudo verificar el token recibido del usuario.");
     }
   }
+}
+
+function htmlMsg(txt) {
+  return `
+    <head>
+    <link rel="stylesheet" href="./style.css">
+    <title>Sportal - Confirmar Creación de Cuenta</title>
+    </head>
+    <body>
+      <h4>${txt}</h4>
+      <h4>En 15 segundos será redirigido al Home</h4>
+      <script type="text/JavaScript">
+        setTimeout("location.href = '${config.misc.urlSite}';",15000);
+      </script>
+    </body>
+  `;
 }
 
 module.exports = controller;

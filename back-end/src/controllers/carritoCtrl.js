@@ -11,9 +11,10 @@ const controller = {
         let query = "SELECT sportal_db.shopping_cart.id, sportal_db.products.id AS product_id, sportal_db.products.model, sportal_db.products.family_id,";
         query = query + " sportal_db.products.image, sportal_db.shopping_cart.price, sportal_db.shopping_cart.quantity, sportal_db.brands.icon";
         query = query + " FROM sportal_db.shopping_cart, sportal_db.products, sportal_db.brands";
-        query = query + " WHERE sportal_db.shopping_cart.product_id = sportal_db.products.id AND sportal_db.products.brand_id = sportal_db.brands.id";
+        query = query + " WHERE sportal_db.shopping_cart.product_id = sportal_db.products.id";
+        query = query + " AND sportal_db.products.brand_id = sportal_db.brands.id";
+        query = query + " AND sportal_db.shopping_cart.user_id = " + req.session.usuarioLogueado.id;
         query = query + " AND sportal_db.shopping_cart.status_id = 1";
-        query = query + " AND sportal_db.shopping_cart.user_id = 2";
         query = query + " ORDER BY sportal_db.shopping_cart.updated_at DESC";
         db.sequelize.query(query)
         .then(function(result) {
@@ -38,7 +39,7 @@ const controller = {
             total: subTotal
           }
           // Otros productos similares
-          let maxItems = ((newData.length / 4).toFixed(0)) * 4;
+          let maxItems = Math.trunc(newData.length / 4) * 4;
           if (maxItems < 4) {maxItems = 4}
           let others = [];  
           db.Product.findAll()
@@ -54,7 +55,7 @@ const controller = {
                   let idx = 0;
                   let i = 0;
                   do {
-                    idx = (Math.random() * (newProducts.length - 1)).toFixed(0);
+                    idx = Math.trunc(Math.random() * (newProducts.length - 1));
                     if (!idxs.includes(idx)) {
                       idxs.push(idx);
                       others.push(newProducts[idx]);

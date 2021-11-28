@@ -56,7 +56,7 @@ function getTemplateNewUser (nombre, apellido, token) {
       <p>Si te ha llegado este correo por error, descártalo y te pedimos disculpas por el inconveniente.</p>
       <p>Presiona sobre el link o cópialo y pégalo en la barra de direcciones para enviarlo.</p>
       <p>Este link vence el ${expires}</p>
-      <a href="http://${url}/users/confirm/${token}">Confirmar cuenta</a>
+      <a href="${url}/users/confirm/${token}">Confirmar cuenta</a>
     </body>
   `;
 }
@@ -75,7 +75,7 @@ function getTemplateNewPass (nombre, apellido, token) {
       <p>Si te ha llegado este correo por error, descártalo y te pedimos disculpas por el inconveniente.</p>
       <p>Presiona sobre el link o cópialo y pégalo en la barra de direcciones para enviarlo.</p>
       <p>Este link vence el ${expires}</p>
-      <a href="http://${url}/users/newPass/${token}">Confirmar blanqueo</a>
+      <a href="${url}/users/newPass/${token}">Confirmar blanqueo</a>
     </body>
   `;
 }

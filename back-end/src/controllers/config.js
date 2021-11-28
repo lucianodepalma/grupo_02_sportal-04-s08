@@ -9,7 +9,7 @@ const config = {
     pathAvatar: "/images/avatars/",
     pathIcons: "/images/icons/",
     defaultImage: "default.jpg",
-    urlSite: "localhost:3001"
+    urlSite: "http://localhost:3001"
   }
 }
 

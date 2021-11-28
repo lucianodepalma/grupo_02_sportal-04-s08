@@ -7,6 +7,7 @@ const db = require('../database/models');
 const {validationResult} = require ('express-validator');
 const {getToken} = require("../functions/jwt.js");
 const {correo} = require("../functions/mailer.js");
+const config = require("./config.js");
 const uuid = require("uuid");
 
 // Controller
@@ -82,7 +83,8 @@ const controller = {
                 {where: {email: email}
               })
               .then(function() {
-                res.send("Se ha enviado un correo a " + email);                
+                let txt = "Se ha enviado un correo a " + email
+                res.send(htmlMsg(txt));
               })
               .catch(function(errmsg) {
                 res.send(errmsg);
@@ -113,5 +115,21 @@ const controller = {
       res.redirect("/home");
     }
 };
+
+function htmlMsg(txt) {
+  return `
+    <head>
+    <link rel="stylesheet" href="./style.css">
+    <title>Sportal - Confirmar Cambio de Contraseña</title>
+    </head>
+    <body>
+      <h4>${txt}</h4>
+      <h4>En 15 segundos será redirigido al Home</h4>
+      <script type="text/JavaScript">
+        setTimeout("location.href = '${config.misc.urlSite}';",15000);
+      </script>
+    </body>
+  `;
+}
 
 module.exports = controller;

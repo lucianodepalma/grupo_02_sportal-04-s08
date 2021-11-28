@@ -9,6 +9,8 @@ window.addEventListener('load', function() {
         telefono: /^\d{7,14}$/ // 7 a 14 numeros.
     }
     
+    let forgotPassword = false;
+
     form.addEventListener('submit', function(e) {
         let errores = false;
         let inputValue = "";
@@ -33,27 +35,48 @@ window.addEventListener('load', function() {
         }
 
         //Validando el input de contraseña para que no este el campo en blanco.
-        let pass = document.getElementById('password');
-        let errmsgpass = document.querySelector(".error-msg-password");
-        if(pass.value.length > 0 ) {
-            errmsgpass.innerHTML = ' ';
-            pass.classList.remove('invalid');
-        } else {
-            errores = true;
-            errmsgpass.innerHTML = "Debes ingresar tu contraseña.";
-            pass.classList.add('invalid');
-        }
-
-        let inputValidator = document.querySelectorAll('.validator');
-        if(errores){
-            if (inputValidator.length > 0){
-                inputValidator.forEach(input => {
-                    input.innerHTML = ' ';
-                })
+        if (!forgotPassword) {
+            let pass = document.getElementById('password');
+            let errmsgpass = document.querySelector(".error-msg-password");
+            if(pass.value.length > 0 ) {
+                errmsgpass.innerHTML = ' ';
+                pass.classList.remove('invalid');
+            } else {
+                errores = true;
+                errmsgpass.innerHTML = "Debes ingresar tu contraseña.";
+                pass.classList.add('invalid');
             }
-            e.preventDefault();
-        };
 
+            let inputValidator = document.querySelectorAll('.validator');
+            if(errores){
+                if (inputValidator.length > 0){
+                    inputValidator.forEach(input => {
+                        input.innerHTML = ' ';
+                    })
+                }
+                e.preventDefault();
+            };
+            forgotPassword = false;
+        }
+    });
+
+    let restore = document.querySelector(".restore-button");
+    restore.addEventListener("click", function(e) {
+        let email = document.getElementById('usuario');
+        if (email.value.length > 0 ) {
+            let inputValue = email.value;
+            if (expresiones.correo.test(inputValue)) {
+                forgotPassword = true;
+            } else {
+                e.preventDefault();
+                alert('Debes ingresar un correo electrónico valido.');
+                email.focus();
+            }
+        } else {
+            e.preventDefault();
+            alert("Debes ingresar el correo electrónico.");
+            email.focus();
+        }
     });
 
     // Si se presiona la tecla 'Enter' en ambos textboxes, se autopresiona el boton 'INGRESAR'

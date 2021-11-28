@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import "../assets/css/dashboardGrid.css";
 import BigPanel from './BigPanel';
 import MiniPanel from './MiniPanel';
@@ -9,7 +9,8 @@ import StatusContext from './Status';
 function DashboardGrid(props) {
     const [status, setStatus] = useState('productos');
     //const [ultimaPagina, setUltimaPagina] = useState(1);
-    const [paginaActual, setPaginaActual] = useState(1);
+    //const [paginaActual, setPaginaActual] = useState(1);
+    const {paginaActual, setPaginaActual} = useContext(StatusContext)
     //const [productos, setProductos] = useState({});
     //const [oneProduct, setOneProduct] = useState({});
     const [marcas, setMarcas] = useState(0);

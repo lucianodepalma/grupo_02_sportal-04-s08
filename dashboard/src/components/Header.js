@@ -4,6 +4,7 @@ import "../assets/css/style.css";
 import "../assets/css/header.css";
 
 import DashboardGrid from './DashboardGrid';
+import StatusContext from './Status';
 
 
 
@@ -37,8 +38,7 @@ const axios = require('axios').default;
 function Header () {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResp, setSearchResp] = useState({});
-
-    
+    const [paginaActual, setPaginaActual] = useState(1)    
     
 
     // useEffect(() => {
@@ -53,9 +53,9 @@ function Header () {
     };
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/products/search/?rpp=10&page=1&searchString='+ searchTerm)
+        axios.get('http://localhost:3001/api/products/search/?rpp=10&page=' + paginaActual + '&searchString='+ searchTerm)
         .then( ((response) => {
-            
+            paginaActual > response.data.pages && setPaginaActual(1)
             setSearchResp(response.data);
             console.log("axios: ", searchTerm ,response.data)
         }))
@@ -66,9 +66,10 @@ function Header () {
         return () => {
            
         }
-    }, [searchTerm])
+    }, [searchTerm, paginaActual])
 
     return (
+        <StatusContext.Provider value={{ paginaActual, setPaginaActual}}>
         <React.Fragment>
             <div className="container">
                 <header className="header">
@@ -112,6 +113,7 @@ function Header () {
                 
             
         </React.Fragment>
+        </StatusContext.Provider>
     )
 }
 

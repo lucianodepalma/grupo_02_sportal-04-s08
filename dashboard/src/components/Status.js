@@ -4,7 +4,7 @@ const StatusContext = createContext({
     status: 'productos',
     paginaActual: 1,
     setStatus: (estado) => {},
-    setPaginado: (pagina) => {}
+    setPaginaActual: (pagina) => {}
 });
 
 

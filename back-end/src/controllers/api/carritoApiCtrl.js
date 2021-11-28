@@ -21,9 +21,8 @@ const controller = {
     //      }
     function (req, res) {
       db.ShoppingCart.findAll({
-        // include:[{association:"model"}],
         where: {
-          status_id: 1,
+          status_id: 2,
           created_at: {
             [Op.lt]: new Date(),
             [Op.gt]: new Date(new Date() - req.params.days * 24 * 60 * 60 * 1000)

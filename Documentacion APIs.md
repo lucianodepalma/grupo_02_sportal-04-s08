@@ -108,7 +108,11 @@ Todos devuelven una respuesta en formato **JSON**.
            searchString es el valor por el que debe efectuarse la búsqueda
     Out:  {
            count: Cantidad de productos
-           products: Array de productos
+           products: Array de productos (incluye cantidad y venta de los últimos 30 dias)
+           headings: Cantidad de rubros
+           brands: Cantidad de marcas
+           families: Cantidad de familias de producto
+           pages: Cantidad de paginas. Si no se utilizo paginado el valor es cero.
            status: Codigo de error
           }
 

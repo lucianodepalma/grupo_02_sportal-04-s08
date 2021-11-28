@@ -342,7 +342,7 @@ const controller = {
             id: elem.id,
             name: elem.model,
             description: elem.desc,
-            image: config.misc.pathImages + elem.image,
+            image: config.misc.urlSite + config.misc.pathImages + elem.image,
             price: elem.price,
             detail: config.misc.urlSite + "/api/products/" + elem.id,
             sales: sales.toFixed(2),

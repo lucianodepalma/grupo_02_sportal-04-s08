@@ -41,7 +41,7 @@ function Header () {
     const [paginaActual, setPaginaActual] = useState(1);
     const [searchRespUsuarios, setSearchRespUsuarios] = useState({});
     const [paginaActualUsuarios, setPaginaActualUsuarios] = useState(1);
-    
+    const [searchRespProduct, setsearchRespProduct] = useState({});
 
     // useEffect(() => {
     //     console.log("resp: ", searchResp)
@@ -75,7 +75,6 @@ function Header () {
         .then( ((response) => {
             paginaActualUsuarios > response.data.pages && setPaginaActual(1)
             setSearchRespUsuarios(response.data);
-            console.log("axios: " , response.data);
         }))
         .catch( (error =>{
             console.log(error)
@@ -86,19 +85,31 @@ function Header () {
         }
     }, [paginaActualUsuarios])
 
+    useEffect(() => {
+        axios.get('http://localhost:3001/api/products/70267136')
+        .then( ((response) => {
+            setsearchRespProduct(response.data);
+        }))
+        .catch( (error =>{
+            console.log(error)
+        }))
+        
+        return () => {
+           
+        }
+    }, [])
+
     return (
         <StatusContext.Provider value={{ paginaActual, setPaginaActual}}>
         <React.Fragment>
             <div className="container">
                 <header className="header">
-            
-
 
                 <div className="header-upper"></div>
                 <div className="header-banner">
-                    <DashboardGrid searchData={searchResp} usuariosData={searchRespUsuarios}/>
+                    <DashboardGrid searchData={searchResp} usuariosData={searchRespUsuarios} productData={searchRespProduct}/>
                 </div>
-                 <div className="header-circle"><a href="/" ><span className="circle-link"></span></a></div> 
+                 <div className="header-circle"><a href="/" ><span className="circle-link"></span></a></div>
                 
                 {/* <HeaderPanel /> */}
                 <div className="header-search-fill"></div>

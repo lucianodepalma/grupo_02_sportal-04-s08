@@ -15,7 +15,7 @@ function DashboardGrid(props) {
     const [oneProduct, setOneProduct] = useState([]);
     const [marcas, setMarcas] = useState([]);
     const [tipos, setTipos] = useState([]);
-    const [usuarios, setUsuarios] = useState({});
+    //const [usuarios, setUsuarios] = useState({});
 
     
 
@@ -32,13 +32,13 @@ function DashboardGrid(props) {
     //     })
     // }, []);
 
-    useEffect( () => {
-        fetch('http://localhost:3001/api/users/')
-        .then (response => response.json())
-        .then(data => {
-            setUsuarios(data)
-        })
-    }, []);
+    //useEffect( () => {
+    //    fetch('http://localhost:3001/api/users/')
+    //    .then (response => response.json())
+    //    .then(data => {
+    //        setUsuarios(data)
+    //    })
+    //}, []);
     
     useEffect( () => {
         fetch('http://localhost:3001/api/products/70267136')
@@ -83,14 +83,14 @@ function DashboardGrid(props) {
         <div className="dashboardgrid">
 
         <MiniPanel row={1} col={1} num={props.searchData.count} concept={"productos"} />
-        <MiniPanel row={1} col={2} num={usuarios.count} concept={"usuarios"} />
+        <MiniPanel row={1} col={2} num={props.usuariosData.count} concept={"usuarios"} />
         <MiniPanel row={1} col={3} num={oneProduct} concept={"categorías"}/>
 
         <MiniPanel row={2} col={1} num={marcas} concept={"marcas"} />
         <MiniPanel row={2} col={2} num={tipos} concept={"tipos"} />
         <MiniPanel row={2} col={3} num={"1.600"} concept={"ventas / mes"} bg={"#a0a0a0"} clr={"#ffffff"}  />
         <BigPanel flag={status}/>
-        <ProductContainer flag={status} usuariosDataDash = {props.usuariosData} searchDataDash = {props.searchData} />
+        <ProductContainer flag={status} productDataDash={props.productData} usuariosDataDash = {props.usuariosData} searchDataDash = {props.searchData} />
         <div className="bar" dangerouslySetInnerHTML={{__html:((props.searchData.pages === 0) ? " Sin resultados" :( paginaActual+"/" + props.searchData.pages + " paginas"))}}/>
             <i onClick={backPageHandler} className="left fas fa-angle-double-left"/>
             <i onClick={forwardPageHandler} className="right fas fa-angle-double-right"/>

@@ -5,6 +5,8 @@ import ProductCard from './ProductCard';
 const ProductContainer = (props) => {
     const [productos, setProductos] = useState({});
     const [usuarios, setUsuarios] = useState({});
+    const [oneProduct, setOneProduct] = useState({});
+    
     const flagChart = props.flag;
     // const cantProductos = 18;
     // const [paginado, setPaginado] = useState({paginaActual:1, ultimaPagina:1});
@@ -31,6 +33,16 @@ const ProductContainer = (props) => {
         // })
     }, [props]);
 
+    useEffect( () => {
+        setOneProduct(props.productDataDash);
+        // fetch(`http://localhost:3001/api/products/search/?rpp=${cantProductos}&page=${paginado.paginaActual}&searchString=`)
+        // .then (response => response.json())
+        // .then(data => {
+        //     setProductos(data);
+        //     console.log("fetch",data)
+        // })
+    }, [props]);
+
     //const cardImage = "images/select200/AD_CM8534-1.JPG"
 
     return (
@@ -40,9 +52,13 @@ const ProductContainer = (props) => {
                     usuarios.count > 0 && usuarios.users.map( item => {
                         return <ProductCard cardImage={item.avatar} nombre={item.name} precio={item.email} desc={''}/>
                     }) :
-                    productos.count > 0 && productos.products.map( item => {
-                        return <ProductCard cardImage={item.image} nombre={item.name} precio={'$ ' + item.price} desc={item.description}/>
-                    })
+                    flagChart === 'marcas' ?
+                        oneProduct.brandsCollection.map( item => {
+                            return <ProductCard cardImage={item.icon} nombre={item.desc} precio={''} desc={''}/>
+                        }) :
+                        productos.count > 0 && productos.products.map( item => {
+                            return <ProductCard cardImage={item.image} nombre={item.name} precio={'$ ' + item.price} desc={item.description}/>
+                        })
             }
         </div>
     )

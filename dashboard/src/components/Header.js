@@ -57,7 +57,7 @@ function Header () {
     useEffect(() => {
         axios.get('http://localhost:3001/api/products/search/?rpp=10&page=' + paginaActual + '&searchString='+ searchTerm)
         .then( ((response) => {
-            paginaActual > response.data.pages && setPaginaActualUsuarios(1)
+            paginaActual > response.data.pages && setPaginaActual(1)
             setSearchResp(response.data);
             console.log("axios: ", searchTerm ,response.data)
         }))
@@ -73,8 +73,9 @@ function Header () {
     useEffect(() => {
         axios.get('http://localhost:3001/api/users/?rpp=10&page=' + paginaActualUsuarios )
         .then( ((response) => {
-            paginaActualUsuarios > response.data.pages && setPaginaActual(1)
+            paginaActualUsuarios > response.data.pages && setPaginaActualUsuarios(1)
             setSearchRespUsuarios(response.data);
+            console.log("users: ", paginaActualUsuarios, response.data.count)
         }))
         .catch( (error =>{
             console.log(error)
@@ -115,7 +116,7 @@ function Header () {
                 <div className="header-search-fill"></div>
 
                 <div className="header-search-box">
-                    <form className="form-search-submit" action="/productos/search" method="GET">
+                    <form onSubmit={e => {e.preventDefault();}} className="form-search-submit" action="/productos/search" method="GET">
                         <input onChange={handleChange} className="header-search-input" type="text" name="searchString" value={searchTerm} placeholder="Ingrese su búsqueda" autoComplete="false" />
                     </form>
                 </div>

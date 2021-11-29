@@ -55,7 +55,7 @@ function Header () {
     };
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/products/?rpp=10&page=' + paginaActual + '&searchString='+ searchTerm)
+        axios.get('http://localhost:3001/api/products/search/?rpp=10&page=' + paginaActual + '&searchString='+ searchTerm)
         .then( ((response) => {
             paginaActual > response.data.pages && setPaginaActualUsuarios(1)
             setSearchResp(response.data);

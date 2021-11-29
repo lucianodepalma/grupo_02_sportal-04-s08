@@ -12,9 +12,9 @@ function DashboardGrid(props) {
     //const [paginaActual, setPaginaActual] = useState(1);
     const {paginaActual, setPaginaActual} = useContext(StatusContext)
     //const [productos, setProductos] = useState({});
-    //const [oneProduct, setOneProduct] = useState({});
-    const [marcas, setMarcas] = useState(0);
-    //const [tipos, setTipos] = useState({});
+    const [oneProduct, setOneProduct] = useState([]);
+    const [marcas, setMarcas] = useState([]);
+    const [tipos, setTipos] = useState([]);
     const [usuarios, setUsuarios] = useState({});
 
     
@@ -40,24 +40,24 @@ function DashboardGrid(props) {
         })
     }, []);
     
-    // useEffect( () => {
-    //     fetch('http://localhost:3001/api/products/70267136')
-    //     .then (response => response.json())
-    //     .then(data => {
-    //         //setOneProduct(data.headingsCollection);
-    //         //setMarcas(data.brandsCollection);
-    //         setTipos(data.familiesCollection);
-    //     })
-    // }, []);
+    useEffect( () => {
+        fetch('http://localhost:3001/api/products/70267136')
+        .then (response => response.json())
+        .then(data => {
+            setOneProduct(data.headingsCollection.length);
+            setMarcas(data.brandsCollection.length);
+            setTipos(data.familiesCollection.length);
+        })
+    }, []);
 
-    useEffect(() => {
-        setMarcas(props.searchData.brands)
-        //setPaginaActual(1)
-        console.log("dash: ", props.searchData)
-        return () => {
-            
-        }
-    }, [props])
+    //useEffect(() => {
+    //    setMarcas(props.searchData.brands)
+    //    //setPaginaActual(1)
+    //    console.log("dash: ", props.searchData)
+    //    return () => {
+    //        
+    //    }
+    //}, [props])
 
     //const paginadoMas = () => {
     //    setPaginado({paginaActual: paginado.paginaActual + 1});
@@ -84,13 +84,13 @@ function DashboardGrid(props) {
 
         <MiniPanel row={1} col={1} num={props.searchData.count} concept={"productos"} />
         <MiniPanel row={1} col={2} num={usuarios.count} concept={"usuarios"} />
-        <MiniPanel row={1} col={3} num={props.searchData.headings} concept={"categorías"}/>
+        <MiniPanel row={1} col={3} num={oneProduct} concept={"categorías"}/>
 
         <MiniPanel row={2} col={1} num={marcas} concept={"marcas"} />
-        <MiniPanel row={2} col={2} num={props.searchData.families} concept={"tipos"} />
+        <MiniPanel row={2} col={2} num={tipos} concept={"tipos"} />
         <MiniPanel row={2} col={3} num={"1.600"} concept={"ventas / mes"} bg={"#a0a0a0"} clr={"#ffffff"}  />
-        <BigPanel flag={ (status === "ventas / mes") ? true :false }/>
-        <ProductContainer searchDataDash = {props} />
+        <BigPanel flag={status}/>
+        <ProductContainer flag={status} usuariosDataDash = {props.usuariosData} searchDataDash = {props.searchData} />
         <div className="bar" dangerouslySetInnerHTML={{__html:((props.searchData.pages === 0) ? " Sin resultados" :( paginaActual+"/" + props.searchData.pages + " paginas"))}}/>
             <i onClick={backPageHandler} className="left fas fa-angle-double-left"/>
             <i onClick={forwardPageHandler} className="right fas fa-angle-double-right"/>

@@ -38,7 +38,9 @@ const axios = require('axios').default;
 function Header () {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResp, setSearchResp] = useState({});
-    const [paginaActual, setPaginaActual] = useState(1)    
+    const [paginaActual, setPaginaActual] = useState(1);
+    const [searchRespUsuarios, setSearchRespUsuarios] = useState({});
+    const [paginaActualUsuarios, setPaginaActualUsuarios] = useState(1);
     
 
     // useEffect(() => {
@@ -53,9 +55,9 @@ function Header () {
     };
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/products/search/?rpp=10&page=' + paginaActual + '&searchString='+ searchTerm)
+        axios.get('http://localhost:3001/api/products/?rpp=10&page=' + paginaActual + '&searchString='+ searchTerm)
         .then( ((response) => {
-            paginaActual > response.data.pages && setPaginaActual(1)
+            paginaActual > response.data.pages && setPaginaActualUsuarios(1)
             setSearchResp(response.data);
             console.log("axios: ", searchTerm ,response.data)
         }))
@@ -68,6 +70,22 @@ function Header () {
         }
     }, [searchTerm, paginaActual])
 
+    useEffect(() => {
+        axios.get('http://localhost:3001/api/users/?rpp=10&page=' + paginaActualUsuarios )
+        .then( ((response) => {
+            paginaActualUsuarios > response.data.pages && setPaginaActual(1)
+            setSearchRespUsuarios(response.data);
+            console.log("axios: " , response.data);
+        }))
+        .catch( (error =>{
+            console.log(error)
+        }))
+        
+        return () => {
+           
+        }
+    }, [paginaActualUsuarios])
+
     return (
         <StatusContext.Provider value={{ paginaActual, setPaginaActual}}>
         <React.Fragment>
@@ -78,7 +96,7 @@ function Header () {
 
                 <div className="header-upper"></div>
                 <div className="header-banner">
-                    <DashboardGrid searchData={searchResp}/>
+                    <DashboardGrid searchData={searchResp} usuariosData={searchRespUsuarios}/>
                 </div>
                  <div className="header-circle"><a href="/" ><span className="circle-link"></span></a></div> 
                 

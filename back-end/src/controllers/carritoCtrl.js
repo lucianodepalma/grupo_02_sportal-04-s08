@@ -47,7 +47,7 @@ const controller = {
             let newProducts = [];
             newProducts = prodList.filter(function(elem) {
               return (!newProducts.includes(elem.product_id) && families.includes(elem.family_id));
-            })
+            });
             if (newProducts) {
               if (newProducts.length > 0) {
                 if (newProducts.length > maxItems) {

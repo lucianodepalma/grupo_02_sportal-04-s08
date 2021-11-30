@@ -271,7 +271,9 @@ const controller = {
     //        headings: Cantidad de rubros
     //        brands: Cantidad de marcas
     //        families: Cantidad de familias de producto
-    //        pages: Cantidad de paginas. Si no se utilizo paginado el valor es cero.
+    //        sales: Total de ventas
+    //        quantity: Cantidad vendida
+    //        pages: Cantidad de paginas. Si no se utilizo paginado el valor es cero
     //        status: Codigo de error
     //       }
     function (req, res) {
@@ -309,6 +311,10 @@ const controller = {
         let articulos = [];
         let cantidad = [];
         let importe = [];
+        let totQty = 0;
+        let totImp = 0
+        let sales = 0;
+        let qty = 0;
         let idx = 0;
         ventas.map(function(elem) {
           let code = elem.product_id;
@@ -323,13 +329,19 @@ const controller = {
             cantidad[idx] = cantidad[idx] + elem.quantity;
             importe[idx] = importe[idx] + (elem.price * elem.quantity);
           }
+          // Ventas totales de los ultimos 30 dias
+          idx = totProducts.findIndex(function(item) {
+            return (item.id == code);
+          });
+          if (!(idx < 0)) {
+            totQty = totQty + elem.quantity;
+            totImp = totImp + (elem.price * elem.quantity);
+          }
         });
         // Preparo array a devolver
         let productArray = [];
         products.rows.map(function (elem) {
           // Ventas para el producto
-          let sales = 0;
-          let qty = 0;
           idx = articulos.findIndex(function(item) {
             return (item == elem.id);
           });
@@ -381,6 +393,8 @@ const controller = {
           headings: headings.length,
           brands: brands.length,
           families: families.length,
+          sales: totImp.toFixed(2),
+          quantity: totQty,
           pages: pages,
           status: 200
         }

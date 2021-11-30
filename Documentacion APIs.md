@@ -112,6 +112,8 @@ Todos devuelven una respuesta en formato **JSON**.
            headings: Cantidad de rubros
            brands: Cantidad de marcas
            families: Cantidad de familias de producto
+           sales: Total de ventas
+           quantity: Cantidad vendida
            pages: Cantidad de paginas. Si no se utilizo paginado el valor es cero.
            status: Codigo de error
           }

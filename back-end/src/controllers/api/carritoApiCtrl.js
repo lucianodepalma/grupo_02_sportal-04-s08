@@ -256,16 +256,21 @@ const controller = {
     }
   ,
   bestSeller:
-    // Obtiene el producto mas vendido
+    // Obtiene el producto mas vendido en los ultimos 30 dias
     // Uso: /api/cart/bestSeller
     // Out: {
     //       record: Producto mas vendido
+    //       sales: Cantidad vendida
     //       status:  Codigo de error
     //      }
     function (req, res) {
       db.ShoppingCart.findAll({
         where: {
-          status_id: 2
+          status_id: 2,
+          created_at: {
+            [Op.lt]: new Date(),
+            [Op.gt]: new Date(new Date() - 30 * 24 * 60 * 60 * 1000)
+          }
         }
       })
       .then(function(records) {
@@ -302,6 +307,7 @@ const controller = {
           if (record.lower_image) {record.lower_image = config.misc.urlSite + config.misc.pathImages + record.lower_image}
           let result = {
             record: record,
+            sales: max,
             status: 200
           }
           res.status(200).json(result);

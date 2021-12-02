@@ -105,7 +105,7 @@ Todos devuelven una respuesta en formato **JSON**.
     Uso:   /api/products/search/?rpp=<number>&page=<number>&searchString=<valor>
     donde: rpp es la cantidad de registros por pagina
            page es la pagina que se desea obtener
-           searchString es el valor por el que debe efectuarse la búsqueda
+           searchString es el valor por el que debe efectuarse la búsqueda por el campo modelo
     Out:  {
            count: Cantidad de productos
            products: Array de productos (incluye cantidad y venta de los últimos 30 dias)
@@ -115,6 +115,28 @@ Todos devuelven una respuesta en formato **JSON**.
            sales: Total de ventas
            quantity: Cantidad vendida
            pages: Cantidad de paginas. Si no se utilizo paginado el valor es cero.
+           status: Codigo de error
+          }
+    
+### Buscar productos por varios criterios
+
+    Uso:   /api/products/search/?rpp=<number>&page=<number>&searchString=<valor>&field=<opc>&value=<valor>&days=<number>
+    donde: rpp es la cantidad de registros por pagina
+           page es la pagina que se desea obtener
+           searchString es el valor por el que debe efectuarse la búsqueda por el campo modelo
+           field es un string que identifica el campo por el que efectuara el filtrado
+           value es el valor por el que debe filtrarse
+           days es la cantidad de dias, desde la fecha del dia hacia atras, para calcular las ventas
+
+    Out:  {
+           count: Cantidad de productos
+           products: Array de productos (incluye cantidad y venta de los últimos 'days' dias)
+           headings: Cantidad de rubros
+           brands: Cantidad de marcas
+           families: Cantidad de familias de producto
+           sales: Total de ventas
+           quantity: Cantidad vendida
+           pages: Cantidad de paginas. Si no se utilizo paginado el valor es cero
            status: Codigo de error
           }
 

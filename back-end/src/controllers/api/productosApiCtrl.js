@@ -242,7 +242,7 @@ const controller = {
           let idx = headingArray.findIndex(function (item) {
             return (elem.heading_id == item.id);
           });
-          if (idx > -1) {
+          if (!(idx < 0)) {
             headingArray[idx].count++
           }
         });
@@ -345,7 +345,10 @@ const controller = {
           idx = articulos.findIndex(function(item) {
             return (item == elem.id);
           });
-          if (!(idx < 0)) {
+          if (idx < 0) {
+            sales = 0;
+            qty = 0;
+          } else {
             sales = importe[idx];
             qty = cantidad[idx];
           }
@@ -404,6 +407,191 @@ const controller = {
         res.json(errMsg);
       });
     }
+  ,
+  searchAllProducts:
+    // Efectúa una búsqueda de productos por modelo y filtra por campos
+    // Uso:   /api/products/search/?rpp=<number>&page=<number>&searchString=<valor>&field=<opc>&value=<valor>&days=<number>
+    // donde: rpp es la cantidad de registros por pagina
+    //        page es la pagina que se desea obtener
+    //        searchString es el valor por el que debe efectuarse la búsqueda
+    //        field es un string que identifica el campo por el que efectuara el filtrado
+    //        value es el valor por el que debe filtrarse
+    //        days es la cantidad de dias, desde la fecha del dia hacia atras, para calcular las ventas
+
+    // Out:  {
+    //        count: Cantidad de productos
+    //        products: Array de productos
+    //        headings: Cantidad de rubros
+    //        brands: Cantidad de marcas
+    //        families: Cantidad de familias de producto
+    //        sales: Total de ventas
+    //        quantity: Cantidad vendida
+    //        pages: Cantidad de paginas. Si no se utilizo paginado el valor es cero
+    //        status: Codigo de error
+    //       }
+    function (req, res) {
+      let params = {};
+      // Filtro por searchString
+      let search = (req.query.searchString ? req.query.searchString : "");
+      if (search.length > 0) {
+        if (!params.where) {params.where = {}}
+        params.where.model =  {[Op.like]: "%" + req.query.searchString + "%"}
+      }
+      // Filtro por field y value
+      let field = (req.query.field ? req.query.field : "");
+      let valor = (req.query.value ? req.query.value : "");
+      if (!(field == "" || valor == "")) {
+        if (!params.where) {params.where = {}}
+        switch (field.toLowerCase()) {
+          case "age":
+            params.where["age_id"] = valor;
+            break;
+          case "brand":
+            params.where["brand_id"] = valor;
+            break;
+          case "color":
+            params.where["color_id"] = valor;
+            break;
+          case "family":
+            params.where["family_id"] = valor;
+            break;
+          case "heading":
+            params.where["heading_id"] = valor;
+            break;
+          case "sex":
+            params.where["sex_id"] = valor;
+            break;
+        }
+      }
+      // Filtra productos a devolver
+      let totProducts = db.Product.findAll(params);
+      // Paginacion
+      let rpp = (req.query.rpp ? req.query.rpp : 0);
+      let page = (req.query.page ? req.query.page : 1);
+      if (rpp > 0) {
+        params.limit = Number(rpp);
+        params.offset = Number(rpp * (page - 1));
+      }
+      // Ordenamiento
+      params.order = [['updated_at', 'DESC']];
+      params.raw = true;
+      // Filtra productos a devolver sin paginado
+      let products = db.Product.findAndCountAll(params);
+      // Filtro por days. Ventas de los ultimos days dias o de los ultimos 30 dias.
+      let days = (req.query.days ? req.query.days : 30);
+      if (days < 1) {days = 30}
+      let ventas = db.ShoppingCart.findAll({
+        where: {
+          status_id: 2,
+          created_at: {
+            [Op.lt]: new Date(),
+            [Op.gt]: new Date(new Date() - days * 24 * 60 * 60 * 1000)
+          }
+        }
+      });
+      // Consulta a la BD
+      Promise.all([products, totProducts, ventas])
+      .then(function([products, totProducts, ventas]) {
+        // Calcula ventas de los ultimos days dias
+        let articulos = [];
+        let cantidad = [];
+        let importe = [];
+        let totQty = 0;
+        let totImp = 0
+        let sales = 0;
+        let qty = 0;
+        let idx = 0;
+        ventas.map(function(elem) {
+          let code = elem.product_id;
+          idx = articulos.findIndex(function(elem) {
+            return (code == elem);
+          });
+          if (idx < 0) {
+            articulos.push(code);
+            cantidad.push(elem.quantity);
+            importe.push(elem.price * elem.quantity);
+          } else {
+            cantidad[idx] = cantidad[idx] + elem.quantity;
+            importe[idx] = importe[idx] + (elem.price * elem.quantity);
+          }
+          // Ventas totales de los ultimos days dias
+          idx = totProducts.findIndex(function(item) {
+            return (item.id == code);
+          });
+          if (!(idx < 0)) {
+            totQty = totQty + elem.quantity;
+            totImp = totImp + (elem.price * elem.quantity);
+          }
+        });
+        // Preparo array a devolver
+        let productArray = [];
+        products.rows.map(function (elem) {
+          // Ventas para el producto
+          idx = articulos.findIndex(function(item) {
+            return (item == elem.id);
+          });
+          if (idx < 0) {
+            sales = 0;
+            qty = 0;
+          } else {
+            sales = importe[idx];
+            qty = cantidad[idx];
+          }
+          // Arma el OL del producto
+          let product = {
+            id: elem.id,
+            name: elem.model,
+            description: elem.desc,
+            image: config.misc.urlSite + config.misc.pathImages + elem.image,
+            price: elem.price,
+            detail: config.misc.urlSite + "/api/products/" + elem.id,
+            sales: sales.toFixed(2),
+            quantity: qty
+          }
+          productArray.push(product);
+        });
+        // Calculo total por headings, brands y families
+        let headings = [];
+        let brands = [];
+        let families = [];
+        totProducts.map(function(elem) {
+          let heading = elem.heading_id;
+          if (!headings.includes(heading)) {
+            headings.push(heading);
+          }
+          let brand = elem.brand_id;
+          if (!brands.includes(brand)) {
+            brands.push(brand);
+          }
+          let family = elem.family_id;
+          if (!families.includes(family)) {
+            families.push(family);
+          }
+        })
+        // Paginas
+        let pages = 0;
+        if (rpp > 0) {
+          pages = Math.trunc(totProducts.length / rpp);
+          if ((totProducts.length % rpp) > 0) {pages++}
+        }
+        // Completo el OL a devolver
+        let result = {
+          count: products.count,
+          products: productArray,
+          headings: headings.length,
+          brands: brands.length,
+          families: families.length,
+          sales: totImp.toFixed(2),
+          quantity: totQty,
+          pages: pages,
+          status: 200
+        }
+        res.status(200).json(result);
+      })
+      .catch(function(errMsg) {
+        res.json(errMsg);
+      });
+    }  
 }
 
 module.exports = controller;

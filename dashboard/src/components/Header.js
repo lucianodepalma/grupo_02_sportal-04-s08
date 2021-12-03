@@ -6,34 +6,7 @@ import "../assets/css/header.css";
 import DashboardGrid from './DashboardGrid';
 import StatusContext from './Status';
 
-
-
 const axios = require('axios').default;
-    
-
-// import HeaderPanel from "./HeaderPanel"
-
-// function App() {
-//     const [searchTerm, setSearchTerm] = React.useState("");
-//      const handleChange = event => {
-//        setSearchTerm(event.target.value);
-//      };
-//      return (
-//        <div className="App">
-//          <input
-//            type="text"
-//            placeholder="Search"
-//            value={searchTerm}
-//            onChange={handleChange}
-//          />
-//          <ul>
-//            <li>Item 1</li>
-//            <li>Item 2</li>
-//          </ul>
-//        </div>
-//      );
-//    }
-
 
 function Header () {
     const [searchTerm, setSearchTerm] = useState("");
@@ -41,25 +14,29 @@ function Header () {
     const [paginaActual, setPaginaActual] = useState(1);
     const [searchRespUsuarios, setSearchRespUsuarios] = useState({});
     const [paginaActualUsuarios, setPaginaActualUsuarios] = useState(1);
-    const [searchRespProduct, setsearchRespProduct] = useState({});
-
-    // useEffect(() => {
-    //     console.log("resp: ", searchResp)
-        
-    // }, [searchResp])
+    const [searchRespProduct, setSearchRespProduct] = useState({});
+    const [headings, setHeadings] = useState("");
 
     const handleChange = (event) => {
         event.preventDefault();
         setSearchTerm(event.target.value);
-        console.log("hadle: ",event.target.value)
+    };
+    
+    const showHeading = (event) => {
+        event.preventDefault();
+        let heading = document.querySelector("li a");
+        let href = event.target.toString()
+        let idx = href.lastIndexOf("/");
+        heading = href.substring(idx+1);
+        setHeadings(heading);
     };
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/products/search/?rpp=10&page=' + paginaActual + '&searchString='+ searchTerm)
+        let url = 'http://localhost:3001/api/products/searchAll/?rpp=10&page=' + paginaActual + '&searchString='+ searchTerm;
+        axios.get(url)
         .then( ((response) => {
             paginaActual > response.data.pages && setPaginaActual(1)
             setSearchResp(response.data);
-            console.log("axios: ", searchTerm ,response.data)
         }))
         .catch( (error =>{
             console.log(error)
@@ -68,14 +45,34 @@ function Header () {
         return () => {
            
         }
-    }, [searchTerm, paginaActual])
+    }, [searchTerm, paginaActual]);
+
+    useEffect(() => {
+        let url = "";
+        if (headings > 0) {
+            url = 'http://localhost:3001/api/products/searchAll/?rpp=10&page=' + paginaActual + '&field=heading&value='+ headings;
+        } else {
+            url = 'http://localhost:3001/api/products/searchAll/?rpp=10&page=' + paginaActual;
+        }
+        axios.get(url)
+        .then( ((response) => {
+            paginaActual > response.data.pages && setPaginaActual(1)
+            setSearchResp(response.data);
+        }))
+        .catch( (error =>{
+            console.log(error)
+        }))
+        
+        return () => {
+           
+        }
+    }, [headings, paginaActual]);
 
     useEffect(() => {
         axios.get('http://localhost:3001/api/users/?rpp=10&page=' + paginaActualUsuarios )
         .then( ((response) => {
             paginaActualUsuarios > response.data.pages && setPaginaActualUsuarios(1)
             setSearchRespUsuarios(response.data);
-            console.log("users: ", paginaActualUsuarios, response.data.count)
         }))
         .catch( (error =>{
             console.log(error)
@@ -87,9 +84,16 @@ function Header () {
     }, [paginaActualUsuarios])
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/products/70267136')
+        axios.get('http://localhost:3001/api/products/?rpp=1&page=1')
         .then( ((response) => {
-            setsearchRespProduct(response.data);
+            let productId = response.data.products[0].id;
+            axios.get('http://localhost:3001/api/products/' + productId)
+            .then( ((response) => {
+                setSearchRespProduct(response.data);
+            }))
+            .catch( (error =>{
+                console.log(error)
+            }))
         }))
         .catch( (error =>{
             console.log(error)
@@ -125,13 +129,14 @@ function Header () {
                 
                 <nav className="header-menu">
                     <ul className="header-menu">
-                        <li><a href="/productos/1">&nbsp;&nbsp;Básicos</a></li>
-                        <li><a href="/productos/2">Calzado</a></li>
-                        <li><a href="/productos/3">Equipo</a></li>
-                        <li><a href="/productos/4">Carga</a></li>
-                        <li><a href="/productos/8">Agua</a></li>
-                        <li><a href="/productos/5">Portátiles</a></li>
-                        <li><a href="/productos/7">Electro</a></li>
+                        <li><a onClick={showHeading} href="/productos/1">&nbsp;&nbsp;Básicos</a></li>
+                        <li><a onClick={showHeading} href="/productos/2">Calzado</a></li>
+                        <li><a onClick={showHeading} href="/productos/3">Equipo</a></li>
+                        <li><a onClick={showHeading} href="/productos/4">Carga</a></li>
+                        <li><a onClick={showHeading} href="/productos/8">Agua</a></li>
+                        <li><a onClick={showHeading} href="/productos/5">Portátiles</a></li>
+                        <li><a onClick={showHeading} href="/productos/7">Electro</a></li>
+                        <li><a onClick={showHeading} href="/productos/0">Todos</a></li>
                     </ul>
                 </nav>
                 <a className="header-sandwich" href="/productos/7" target="_self">

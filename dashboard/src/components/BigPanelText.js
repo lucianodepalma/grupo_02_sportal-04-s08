@@ -2,7 +2,7 @@ import React from 'react'
 import "../assets/css/bigPanelText.css"
 
 const BigPanelText = (props) => {
-    const textTitle = "<h1>Más vendido<hr><b>1.200 ventas</b></h1>"
+    const textTitle = "<h1>Más vendido<hr><b>" + props.sales + " ventas en los últimos 30 días</b></h1>"
     //const textus =  textTitle + "<p><b>Racer Flexion</b><br><br><b>$6990.00</b><br><br><b>Nullam vitae turpis rutrum, vehicula nunc vitae, auctor sem. Quisque.</b><br><br><b>Sexo:</b> Hombre<br><br><b>Edad:</b> Adulto<br><br><b>Color:</b> Pepino<br><br><b>Talle:</b> XL<br><br><b>Tamaño:</b> nada</P>"
 
     return (

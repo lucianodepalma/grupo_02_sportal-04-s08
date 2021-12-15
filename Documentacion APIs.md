@@ -22,9 +22,6 @@ Todos devuelven una respuesta en formato **JSON**.
 
     Uso: /api/users/<id>
 
-    donde: rpp es la cantidad de registros por página
-           page es la página que se desea obtener
-
     Out: {
           id: ID de usuario
           email: Dirección de correo
@@ -49,7 +46,7 @@ Todos devuelven una respuesta en formato **JSON**.
            field es un string que identifica el campo por el que efectuara el filtrado
            value es el valor por el que debe filtrarse
 
-    Opc:   Las opciones son: age, brand, color, family, heading y sex.
+    Opc:   Las opciones de field son: age, brand, color, family, heading y sex.
            Si se informa field debe informarse value y viceversa.
 
     Out:  {

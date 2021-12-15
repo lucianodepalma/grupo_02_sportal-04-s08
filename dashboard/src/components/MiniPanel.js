@@ -18,15 +18,6 @@ const MiniPanel = (props) => {
         
         console.log(props);
     }
-    // function actionClick(e) {
-    //     (status === props.concept) ? setCondition(true) : setCondition(false);
-    //     !condition ? setStatus(props.concept) : setCondition(true);
-
-    //     console.log("click", status);
-    //     // setTimeout(function () {
-    //     //     setCondition(false);
-    //     //     }, 10000);
-    // }
 
     return (
         <React.Fragment>

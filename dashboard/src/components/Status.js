@@ -7,5 +7,4 @@ const StatusContext = createContext({
     setPaginaActual: (pagina) => {}
 });
 
-
 export default StatusContext;

@@ -13,14 +13,6 @@ const BigPanel = (props) => {
     const flagChart = !props.flag;
 
     useEffect( () => {
-        // fetch('http://localhost:3001/api/products/search/?rpp=1&page=1&searchString=')
-        // .then (response => response.json())
-        // .then(data => {
-        //     setImagen(data.products[0].image);
-        //     setNameProduct(data.products[0].name);
-        //     setPriceProduct(data.products[0].price);
-        //     setDescProduct(data.products[0].description);
-        // })
         fetch('http://localhost:3001/api/cart/bestSeller')
         .then (response => response.json())
         .then(data => {
@@ -33,7 +25,6 @@ const BigPanel = (props) => {
 
     }, []);
 
-    //const bigImage = "images/select200/AD_CM8534-1.JPG"
     return (
         <>
         <div id="big-panel" ></div>

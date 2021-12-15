@@ -116,7 +116,6 @@ function Header () {
                 </div>
                  <div className="header-circle"><a href="/" ><span className="circle-link"></span></a></div>
                 
-                {/* <HeaderPanel /> */}
                 <div className="header-search-fill"></div>
 
                 <div className="header-search-box">

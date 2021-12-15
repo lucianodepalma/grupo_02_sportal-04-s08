@@ -8,42 +8,20 @@ const ProductContainer = (props) => {
     const [oneProduct, setOneProduct] = useState({});
     
     const flagChart = props.flag;
-    // const cantProductos = 18;
-    // const [paginado, setPaginado] = useState({paginaActual:1, ultimaPagina:1});
     console.log("prodCont:",props.searchDataDash)
     console.log('usuarios', props.usuariosDataDash)
 
     useEffect( () => {
         setProductos(props.searchDataDash);
-        // fetch(`http://localhost:3001/api/products/search/?rpp=${cantProductos}&page=${paginado.paginaActual}&searchString=`)
-        // .then (response => response.json())
-        // .then(data => {
-        //     setProductos(data);
-        //     console.log("fetch",data)
-        // })
     }, [props]);
 
     useEffect( () => {
         setUsuarios(props.usuariosDataDash);
-        // fetch(`http://localhost:3001/api/products/search/?rpp=${cantProductos}&page=${paginado.paginaActual}&searchString=`)
-        // .then (response => response.json())
-        // .then(data => {
-        //     setProductos(data);
-        //     console.log("fetch",data)
-        // })
     }, [props]);
 
     useEffect( () => {
         setOneProduct(props.productDataDash);
-        // fetch(`http://localhost:3001/api/products/search/?rpp=${cantProductos}&page=${paginado.paginaActual}&searchString=`)
-        // .then (response => response.json())
-        // .then(data => {
-        //     setProductos(data);
-        //     console.log("fetch",data)
-        // })
     }, [props]);
-
-    //const cardImage = "images/select200/AD_CM8534-1.JPG"
 
     return (
         <div id="product-container">
